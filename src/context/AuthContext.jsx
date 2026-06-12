@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import authService from '../services/auth.service';
 
 const AuthContext = createContext(null);
@@ -8,14 +9,25 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const initUserFromToken = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      setUser({
+        email: decoded.sub,
+        role: decoded.role || decoded.authorities?.[0] || 'USER',
+      });
+      setIsAuthenticated(true);
+    } catch (e) {
+      console.error(e);
+      setIsAuthenticated(false);
+      setUser(null);
+    }
+  };
+
   useEffect(() => {
-    // Check if token exists on mount
     const token = localStorage.getItem('access_token');
     if (token) {
-      // Decode token or fetch user profile from API to set user data
-      // For now, we'll just set authenticated to true
-      setIsAuthenticated(true);
-      // TODO: Fetch user details /me
+      initUserFromToken(token);
     }
     setLoading(false);
   }, []);
@@ -23,13 +35,12 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const data = await authService.login(email, password);
-      setIsAuthenticated(true);
-      // Set user details from response if available
-      if (data.user) {
-         setUser(data.user);
+      const response = await authService.login(email, password);
+      const token = response.data?.token;
+      if (token) {
+         initUserFromToken(token);
       }
-      return data;
+      return response;
     } finally {
       setLoading(false);
     }
@@ -43,6 +54,8 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(false);
       setUser(null);
       setLoading(false);
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
     }
   };
 

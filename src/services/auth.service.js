@@ -3,10 +3,12 @@ import api from './api';
 const authService = {
   login: async (email, password) => {
     const response = await api.post('/auth/login', { email, password });
-    if (response.data?.accessToken) {
-      localStorage.setItem('access_token', response.data.accessToken);
-      if (response.data?.refreshToken) {
-        localStorage.setItem('refresh_token', response.data.refreshToken);
+    // Backend wraps response in ApiResponse: { code, message, data: { token, refreshToken } }
+    const authData = response.data?.data;
+    if (authData?.token) {
+      localStorage.setItem('access_token', authData.token);
+      if (authData?.refreshToken) {
+        localStorage.setItem('refresh_token', authData.refreshToken);
       }
     }
     return response.data;
