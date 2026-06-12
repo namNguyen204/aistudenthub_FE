@@ -1,0 +1,137 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-5);
+  width: 100%;
+}
+
+.input-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--neutral-700);
+  letter-spacing: 0.01em;
+}
+
+.input-label.required::after {
+  content: '*';
+  color: var(--error-500);
+  margin-left: 4px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: rgba(248, 250, 252, 0.7); /* Slightly translucent */
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.input-field::placeholder {
+  color: var(--neutral-400);
+  font-weight: 400;
+}
+
+.input-field:hover {
+  background-color: var(--bg-surface);
+  border-color: var(--neutral-300);
+}
+
+.input-field:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: var(--primary-500);
+  box-shadow: var(--shadow-glow);
+}
+
+.input-field.has-error {
+  border-color: var(--error-500);
+  background-color: var(--error-50);
+}
+
+.input-field.has-error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.input-field:disabled {
+  background-color: var(--neutral-100);
+  color: var(--neutral-500);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Icon Support */
+.input-field.has-icon-left {
+  padding-left: 2.75rem;
+}
+
+.input-field.has-icon-right {
+  padding-right: 2.75rem;
+}
+
+.input-icon-left,
+.input-icon-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--neutral-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-base);
+}
+
+.input-field:focus ~ .input-icon-left,
+.input-field:focus ~ .input-icon-right,
+.input-wrapper:focus-within .input-icon-left {
+  color: var(--primary-500);
+}
+
+.input-icon-left {
+  left: 1rem;
+}
+
+.input-icon-right {
+  right: 1rem;
+}
+
+/* Password Toggle specific */
+.btn-toggle-password {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--neutral-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.btn-toggle-password:hover {
+  color: var(--primary-600);
+}
+
+.input-error-msg {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--error-600);
+  margin-top: 2px;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
