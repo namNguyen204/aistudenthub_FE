@@ -11,7 +11,8 @@ import {
   Settings,
   Shield,
   Bell,
-  Menu
+  Menu,
+  Folder
 } from 'lucide-react';
 import Button from '../components/Button/Button';
 import './DashboardLayout.css';
@@ -26,6 +27,7 @@ const DashboardLayout = () => {
     { name: 'Dashboard', to: '/dashboard', icon: <BookOpen size={20} /> },
     { name: 'Search Documents', to: '/dashboard/search', icon: <Search size={20} /> },
     { name: 'AI Chatbot', to: '/dashboard/chat', icon: <MessageSquare size={20} /> },
+    { name: 'My Folders', to: '/dashboard/folders', icon: <Folder size={20} /> },
     { name: 'Upload Document', to: '/dashboard/upload', icon: <Upload size={20} /> },
     { name: 'My Profile', to: '/dashboard/profile', icon: <Settings size={20} /> },
   ];

@@ -10,6 +10,7 @@ import {
   DashboardHome, DocumentSearch, AIChatbot, 
   UploadDocument, UserProfile, AdminDocumentList, AdminSettings 
 } from './pages/dashboard/DashboardPages';
+import FolderManager from './pages/dashboard/documents/FolderManager';
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const { isAuthenticated, loading, user } = useAuth();
@@ -44,6 +45,7 @@ function AppRoutes() {
       >
         <Route index element={<DashboardHome />} />
         <Route path="search" element={<DocumentSearch />} />
+        <Route path="folders" element={<FolderManager />} />
         <Route path="chat" element={<AIChatbot />} />
         <Route path="upload" element={<UploadDocument />} />
         <Route path="profile" element={<UserProfile />} />
