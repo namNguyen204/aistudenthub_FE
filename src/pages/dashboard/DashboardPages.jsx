@@ -23,9 +23,7 @@ const PageWrapper = ({ title, description }) => (
 );
 
 export const DashboardHome = () => <PageWrapper title="Dashboard Home" description="Welcome back to AI Student Hub. Here is an overview of your recent learning activities and document uploads." />;
-export const DocumentSearch = () => <PageWrapper title="Search Documents" description="Filter and search for academic documents by subject, keyword, or author." />;
 export const AIChatbot = () => <PageWrapper title="AI Chatbot Assistant" description="Chat with the intelligent AI, ask deep questions about specific documents, and review your historical chats." />;
-export const UploadDocument = () => <PageWrapper title="Upload to Cloud" description="Securely upload new learning materials to the cloud storage system." />;
 export const UserProfile = () => <PageWrapper title="My Profile" description="Update your personal information, manage security settings, and customize your experience." />;
 
 export const AdminDocumentList = () => <PageWrapper title="Manage Documents" description="Full administrative access to view, edit, approve, or securely delete all documents across the entire system." />;

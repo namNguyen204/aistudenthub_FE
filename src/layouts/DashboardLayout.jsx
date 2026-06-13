@@ -25,7 +25,7 @@ const DashboardLayout = () => {
 
   const userNavigation = [
     { name: 'Dashboard', to: '/dashboard', icon: <BookOpen size={20} /> },
-    { name: 'Search Documents', to: '/dashboard/search', icon: <Search size={20} /> },
+    { name: 'My Documents', to: '/dashboard/my', icon: <Search size={20} /> },
     { name: 'AI Chatbot', to: '/dashboard/chat', icon: <MessageSquare size={20} /> },
     { name: 'My Folders', to: '/dashboard/folders', icon: <Folder size={20} /> },
     { name: 'Upload Document', to: '/dashboard/upload', icon: <Upload size={20} /> },

@@ -7,10 +7,13 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import DashboardLayout from './layouts/DashboardLayout';
 import { 
-  DashboardHome, DocumentSearch, AIChatbot, 
-  UploadDocument, UserProfile, AdminDocumentList, AdminSettings 
+  DashboardHome, AIChatbot, 
+  UserProfile, AdminDocumentList, AdminSettings 
 } from './pages/dashboard/DashboardPages';
 import FolderManager from './pages/dashboard/documents/FolderManager';
+import UploadDocument from './pages/dashboard/documents/UploadDocument';
+import DocumentSearch from './pages/dashboard/documents/DocumentSearch';
+import DocumentDetail from './pages/dashboard/documents/DocumentDetail';
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const { isAuthenticated, loading, user } = useAuth();
@@ -44,10 +47,11 @@ function AppRoutes() {
         element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}
       >
         <Route index element={<DashboardHome />} />
-        <Route path="search" element={<DocumentSearch />} />
+        <Route path="my" element={<DocumentSearch />} />
         <Route path="folders" element={<FolderManager />} />
         <Route path="chat" element={<AIChatbot />} />
         <Route path="upload" element={<UploadDocument />} />
+        <Route path="documents/:id" element={<DocumentDetail />} />
         <Route path="profile" element={<UserProfile />} />
       </Route>
 

@@ -1,0 +1,312 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Download, Edit, Trash2, ArrowLeft, FileText, Calendar, HardDrive, Folder } from 'lucide-react';
+import documentService from '../../../services/document.service';
+import folderService from '../../../services/folder.service';
+import Button from '../../../components/Button/Button';
+import Modal from '../../../components/Modal/Modal';
+import Input from '../../../components/Input/Input';
+import { validateForm, ruleRequired } from '../../../utils/validation';
+import './DocumentDetail.css';
+
+const formatFileSize = (bytes) => {
+  if (!bytes || bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+};
+
+const DocumentDetail = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  
+  const [doc, setDoc] = useState(null);
+  const [previewData, setPreviewData] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [streamLoading, setStreamLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [folders, setFolders] = useState([]);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    subject: '',
+    major: '',
+    documentType: '',
+    visibility: '',
+    folderId: ''
+  });
+  const [formErrors, setFormErrors] = useState({});
+
+  useEffect(() => {
+    fetchDocumentData();
+    loadFolders();
+    
+    return () => {
+      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+    };
+  }, [id]);
+
+  const loadFolders = async () => {
+    try {
+      const data = await folderService.getFolders();
+      setFolders(data || []);
+    } catch (err) {
+      console.error("Failed to load folders");
+    }
+  };
+
+  const fetchDocumentData = async () => {
+    try {
+      const data = await documentService.getById(id);
+      setDoc(data);
+      setFormData({
+        title: data.title || '',
+        description: data.description || '',
+        subject: data.subject || '',
+        major: data.major || '',
+        documentType: data.documentType || 'LECTURE',
+        visibility: data.visibility || 'PRIVATE',
+        folderId: data.folderId || ''
+      });
+
+      const preview = await documentService.getPreview(id);
+      setPreviewData(preview);
+
+      if (preview && preview.previewMode === 'PDF') {
+        fetchPdfStream();
+      } else {
+        setStreamLoading(false);
+      }
+      
+      setLoading(false);
+    } catch (err) {
+      setError('Failed to load document details');
+      setLoading(false);
+    }
+  };
+
+  const fetchPdfStream = async () => {
+    try {
+      setStreamLoading(true);
+      const blob = await documentService.stream(id);
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        setPdfUrl(url);
+      }
+    } catch (err) {
+      console.error("Failed to stream document", err);
+    } finally {
+      setStreamLoading(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    try {
+      const url = await documentService.getDownloadUrl(id);
+      if (url) window.open(url, '_blank');
+    } catch (err) {
+      console.error('Failed to download document', err);
+      alert('Failed to download document');
+    }
+  };
+
+  const handleUpdate = async () => {
+    const errors = validateForm(formData, { title: [ruleRequired('Title is required')] });
+    setFormErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+
+    try {
+      const payload = {
+        ...formData,
+        folderId: formData.folderId || null
+      };
+      const updatedDoc = await documentService.update(id, payload);
+      setDoc(updatedDoc);
+      setIsEditModalOpen(false);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to update document');
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to permanently delete this document? This action cannot be undone.")) return;
+    setIsDeleting(true);
+    try {
+      await documentService.delete(id);
+      navigate('/dashboard/search');
+    } catch (err) {
+      alert('Failed to delete document');
+      setIsDeleting(false);
+    }
+  };
+
+  if (loading) return <div style={{ padding: '4rem', textAlign: 'center' }}>Loading document...</div>;
+  if (error || !doc) return <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--error-600)' }}>{error}</div>;
+
+  return (
+    <div className="document-detail-container">
+      <div className="preview-section">
+        <div className="preview-header">
+          <Button variant="outline" onClick={() => navigate(-1)} style={{ padding: '6px 12px' }}>
+            <ArrowLeft size={16} style={{ marginRight: '4px' }} /> Back
+          </Button>
+          <h2 className="preview-title" title={doc.fileName}>{doc.fileName}</h2>
+          <div className="preview-actions">
+            <Button variant="outline" onClick={handleDownload}>
+              <Download size={16} style={{ marginRight: '6px' }} /> Download
+            </Button>
+          </div>
+        </div>
+        
+        <div className="preview-content">
+          {streamLoading ? (
+            <div style={{ color: 'white' }}>Loading preview...</div>
+          ) : previewData?.previewMode === 'PDF' && pdfUrl ? (
+            <iframe src={`${pdfUrl}#toolbar=0`} className="pdf-iframe" title="PDF Preview" />
+          ) : previewData?.previewMode === 'OFFICE' && previewData?.previewUrl ? (
+            <iframe 
+              src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(previewData.previewUrl)}`} 
+              className="pdf-iframe" 
+              title="Office Preview" 
+            />
+          ) : previewData?.previewMode === 'TEXT' && previewData?.textContent ? (
+            <div style={{ padding: '2rem', width: '100%', height: '100%', overflowY: 'auto', backgroundColor: '#fff', color: '#333', textAlign: 'left', fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>
+              {previewData.textContent}
+            </div>
+          ) : (
+            <div style={{ color: 'var(--neutral-400)', textAlign: 'center', padding: '2rem' }}>
+              <FileText size={64} style={{ opacity: 0.5, marginBottom: '1rem' }} />
+              <p>{previewData?.message || 'Preview not available for this file type.'}</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="metadata-section">
+        <div className="metadata-header">
+          <h1 className="metadata-title">{doc.title}</h1>
+          <p className="metadata-description">{doc.description || 'No description provided.'}</p>
+        </div>
+        
+        <div className="metadata-body">
+          <div className="meta-item">
+            <span className="meta-label">Subject & Major</span>
+            <div className="meta-value">
+              {doc.subject ? <span className="meta-badge">{doc.subject}</span> : '-'}
+              {doc.major && <span className="meta-badge" style={{ backgroundColor: 'var(--neutral-100)', color: 'var(--neutral-700)' }}>{doc.major}</span>}
+            </div>
+          </div>
+          
+          <div className="meta-item">
+            <span className="meta-label">Document Type</span>
+            <span className="meta-value"><FileText size={16} color="var(--primary-500)"/> {doc.documentType}</span>
+          </div>
+
+          {doc.folderId && (
+            <div className="meta-item">
+              <span className="meta-label">Folder</span>
+              <span className="meta-value"><Folder size={16} color="#f59e0b"/> Saved in Folder</span>
+            </div>
+          )}
+
+          <div className="meta-item">
+            <span className="meta-label">File Size</span>
+            <span className="meta-value"><HardDrive size={16} color="var(--neutral-500)"/> {formatFileSize(doc.fileSize)}</span>
+          </div>
+
+          <div className="meta-item">
+            <span className="meta-label">Uploaded At</span>
+            <span className="meta-value"><Calendar size={16} color="var(--neutral-500)"/> {new Date(doc.createdAt).toLocaleString()}</span>
+          </div>
+          
+          <div className="meta-item">
+            <span className="meta-label">Visibility</span>
+            <span className="meta-value">{doc.visibility === 'PUBLIC' ? 'Public (Shared)' : 'Private (Only you)'}</span>
+          </div>
+        </div>
+
+        <div className="metadata-footer">
+          <Button variant="primary" style={{ width: '100%' }} onClick={() => setIsEditModalOpen(true)}>
+            <Edit size={16} style={{ marginRight: '6px' }} /> Edit Info
+          </Button>
+          <Button variant="outline" style={{ width: '100%', borderColor: 'var(--error-200)', color: 'var(--error-600)' }} onClick={handleDelete} isLoading={isDeleting}>
+            <Trash2 size={16} style={{ marginRight: '6px' }} /> Delete Document
+          </Button>
+        </div>
+      </div>
+
+      <Modal 
+        isOpen={isEditModalOpen} 
+        onClose={() => setIsEditModalOpen(false)}
+        title="Edit Document Info"
+        footer={
+          <>
+            <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+            <Button onClick={handleUpdate}>Save Changes</Button>
+          </>
+        }
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <Input 
+            label="Title *" 
+            value={formData.title} 
+            onChange={(e) => {
+              setFormData({ ...formData, title: e.target.value });
+              if (formErrors.title) setFormErrors({ ...formErrors, title: null });
+            }}
+            error={formErrors.title}
+          />
+          <Input 
+            label="Description" 
+            value={formData.description} 
+            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          />
+          <div className="edit-form-grid">
+            <Input 
+              label="Subject" 
+              value={formData.subject} 
+              onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+            />
+            <Input 
+              label="Major" 
+              value={formData.major} 
+              onChange={(e) => setFormData({ ...formData, major: e.target.value })}
+            />
+          </div>
+          
+          <div className="edit-form-grid">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--neutral-700)' }}>Folder</label>
+              <select 
+                style={{ padding: '10px 14px', border: '1px solid var(--neutral-300)', borderRadius: 'var(--radius-md)' }}
+                value={formData.folderId}
+                onChange={(e) => setFormData({ ...formData, folderId: e.target.value })}
+              >
+                <option value="">-- No Folder --</option>
+                {folders.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
+              </select>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--neutral-700)' }}>Visibility</label>
+              <select 
+                style={{ padding: '10px 14px', border: '1px solid var(--neutral-300)', borderRadius: 'var(--radius-md)' }}
+                value={formData.visibility}
+                onChange={(e) => setFormData({ ...formData, visibility: e.target.value })}
+              >
+                <option value="PRIVATE">Private</option>
+                <option value="PUBLIC">Public</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+};
+
+export default DocumentDetail;
