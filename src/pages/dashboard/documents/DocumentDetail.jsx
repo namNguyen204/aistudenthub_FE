@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Download, Edit, Trash2, ArrowLeft, FileText, Calendar, HardDrive, Folder } from 'lucide-react';
+import { Download, Edit, Trash2, ArrowLeft, FileText, Calendar, HardDrive, Folder, MessageSquare } from 'lucide-react';
 import documentService from '../../../services/document.service';
 import folderService from '../../../services/folder.service';
 import Button from '../../../components/Button/Button';
 import Modal from '../../../components/Modal/Modal';
+import ConfirmDeleteModal from '../../../components/Modal/ConfirmDeleteModal';
 import Input from '../../../components/Input/Input';
 import { validateForm, ruleRequired } from '../../../utils/validation';
 import './DocumentDetail.css';
@@ -29,6 +30,7 @@ const DocumentDetail = () => {
   const [error, setError] = useState(null);
   
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [folders, setFolders] = useState([]);
   const [formData, setFormData] = useState({
@@ -134,14 +136,15 @@ const DocumentDetail = () => {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to permanently delete this document? This action cannot be undone.")) return;
     setIsDeleting(true);
     try {
       await documentService.delete(id);
+      setIsDeleteModalOpen(false);
       navigate('/dashboard/search');
     } catch (err) {
       alert('Failed to delete document');
       setIsDeleting(false);
+      setIsDeleteModalOpen(false);
     }
   };
 
@@ -231,10 +234,13 @@ const DocumentDetail = () => {
         </div>
 
         <div className="metadata-footer">
-          <Button variant="primary" style={{ width: '100%' }} onClick={() => setIsEditModalOpen(true)}>
+          <Button variant="primary" style={{ width: '100%', backgroundColor: 'var(--primary-600)', color: 'white', marginBottom: '8px' }} onClick={() => navigate('/dashboard/chat', { state: { documentId: doc.id } })}>
+            <MessageSquare size={16} style={{ marginRight: '6px' }} /> Chat with this Document
+          </Button>
+          <Button variant="outline" style={{ width: '100%' }} onClick={() => setIsEditModalOpen(true)}>
             <Edit size={16} style={{ marginRight: '6px' }} /> Edit Info
           </Button>
-          <Button variant="outline" style={{ width: '100%', borderColor: 'var(--error-200)', color: 'var(--error-600)' }} onClick={handleDelete} isLoading={isDeleting}>
+          <Button variant="outline" style={{ width: '100%', borderColor: 'var(--error-200)', color: 'var(--error-600)' }} onClick={() => setIsDeleteModalOpen(true)} isLoading={isDeleting}>
             <Trash2 size={16} style={{ marginRight: '6px' }} /> Delete Document
           </Button>
         </div>
@@ -305,6 +311,16 @@ const DocumentDetail = () => {
           </div>
         </div>
       </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmDeleteModal 
+        isOpen={isDeleteModalOpen} 
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDelete}
+        isDeleting={isDeleting}
+        title="Delete Document"
+        message="Are you sure you want to permanently delete this document? This action cannot be undone."
+      />
     </div>
   );
 };

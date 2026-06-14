@@ -4,6 +4,8 @@ import folderService from '../../../services/folder.service';
 import Button from '../../../components/Button/Button';
 import Input from '../../../components/Input/Input';
 import Modal from '../../../components/Modal/Modal';
+import ConfirmDeleteModal from '../../../components/Modal/ConfirmDeleteModal';
+import Toast from '../../../components/Toast/Toast';
 import { validateForm, ruleRequired } from '../../../utils/validation';
 import './FolderManager.css';
 
@@ -30,6 +32,7 @@ const FolderManager = () => {
   const [formData, setFormData] = useState({ name: '', description: '', color: PRESET_COLORS[0] });
   const [formErrors, setFormErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   // Delete state
   const [folderToDelete, setFolderToDelete] = useState(null);
@@ -75,8 +78,10 @@ const FolderManager = () => {
     try {
       if (editingId) {
         await folderService.updateFolder(editingId, formData);
+        setToastMessage('Folder updated successfully!');
       } else {
         await folderService.createFolder(formData);
+        setToastMessage('Folder created successfully!');
       }
       setIsModalOpen(false);
       fetchFolders();
@@ -109,6 +114,8 @@ const FolderManager = () => {
 
   return (
     <div className="premium-page-wrapper folder-manager-container">
+      <Toast message={toastMessage} onClose={() => setToastMessage('')} />
+      
       <div className="folder-header">
         <div>
           <h1 className="page-title">My Folders</h1>
@@ -225,21 +232,14 @@ const FolderManager = () => {
       </Modal>
 
       {/* Delete Confirmation Modal */}
-      <Modal
+      <ConfirmDeleteModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDelete}
+        isDeleting={submitting}
         title="Delete Folder"
-        footer={
-          <>
-            <Button variant="text" onClick={() => setIsDeleteModalOpen(false)}>Cancel</Button>
-            <Button onClick={handleDelete} isLoading={submitting} style={{ backgroundColor: 'var(--error-600)' }}>
-              Delete
-            </Button>
-          </>
-        }
-      >
-        <p>Are you sure you want to delete <strong>{folderToDelete?.name}</strong>? This action cannot be undone.</p>
-      </Modal>
+        message={<>Are you sure you want to delete <strong>{folderToDelete?.name}</strong>? This action cannot be undone.</>}
+      />
     </div>
   );
 };

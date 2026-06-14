@@ -7,13 +7,14 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import DashboardLayout from './layouts/DashboardLayout';
 import { 
-  DashboardHome, AIChatbot, 
+  DashboardHome, 
   UserProfile, AdminDocumentList, AdminSettings 
 } from './pages/dashboard/DashboardPages';
 import FolderManager from './pages/dashboard/documents/FolderManager';
 import UploadDocument from './pages/dashboard/documents/UploadDocument';
 import DocumentSearch from './pages/dashboard/documents/DocumentSearch';
 import DocumentDetail from './pages/dashboard/documents/DocumentDetail';
+import AIChatbot from './pages/dashboard/chat/AIChatbot';
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const { isAuthenticated, loading, user } = useAuth();
