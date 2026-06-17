@@ -48,6 +48,7 @@ const DocumentSearch = () => {
   const [filters, setFilters] = useState({
     keyword: '',
     folderId: '',
+    documentType: '',
     page: 0,
     size: 12
   });
@@ -79,6 +80,7 @@ const DocumentSearch = () => {
       const params = {
         keyword: filters.keyword,
         folderId: filters.folderId,
+        documentType: filters.documentType,
         page: filters.page,
         size: filters.size
       };
@@ -158,7 +160,7 @@ const DocumentSearch = () => {
           </div>
           <select 
             className="filter-select"
-            style={{ width: 'auto', minWidth: '180px' }}
+            style={{ width: 'auto', minWidth: '150px' }}
             value={filters.folderId}
             onChange={(e) => setFilters(prev => ({ ...prev, folderId: e.target.value, page: 0 }))}
           >
@@ -166,6 +168,19 @@ const DocumentSearch = () => {
             {folders.map(f => (
               <option key={f.id} value={f.id}>{f.name}</option>
             ))}
+          </select>
+          <select 
+            className="filter-select"
+            style={{ width: 'auto', minWidth: '150px' }}
+            value={filters.documentType}
+            onChange={(e) => setFilters(prev => ({ ...prev, documentType: e.target.value, page: 0 }))}
+          >
+            <option value="">All Types</option>
+            <option value="LECTURE">Lecture Note</option>
+            <option value="ASSIGNMENT">Assignment</option>
+            <option value="EXAM_PREP">Exam Prep</option>
+            <option value="REFERENCE">Reference</option>
+            <option value="OTHER">Other</option>
           </select>
           <Button type="submit" style={{ padding: '0 32px' }}>Search</Button>
         </form>

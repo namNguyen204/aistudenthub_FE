@@ -17,7 +17,7 @@ const documentService = {
   },
 
   search: async (params) => {
-    const { keyword, subject, major, folderId, page = 0, size = 12 } = params || {};
+    const { keyword, subject, major, folderId, documentType, page = 0, size = 12 } = params || {};
     
     const response = await api.get('/documents/my');
     let allDocs = response.data?.data || [];
@@ -37,6 +37,9 @@ const documentService = {
     }
     if (folderId) {
       allDocs = allDocs.filter(d => d.folderId === folderId);
+    }
+    if (documentType) {
+      allDocs = allDocs.filter(d => d.documentType === documentType);
     }
     
     const totalElements = allDocs.length;
