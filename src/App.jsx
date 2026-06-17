@@ -15,6 +15,7 @@ import UploadDocument from './pages/dashboard/documents/UploadDocument';
 import DocumentSearch from './pages/dashboard/documents/DocumentSearch';
 import DocumentDetail from './pages/dashboard/documents/DocumentDetail';
 import AIChatbot from './pages/dashboard/chat/AIChatbot';
+import Welcome from './pages/Welcome';
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const { isAuthenticated, loading, user } = useAuth();
@@ -37,7 +38,7 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<Navigate to={isAuthenticated ? (isAdmin ? "/admin/documents" : "/dashboard") : "/login"} replace />} />
+      <Route path="/" element={<Welcome />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
