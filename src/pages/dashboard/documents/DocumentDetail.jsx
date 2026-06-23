@@ -140,7 +140,7 @@ const DocumentDetail = () => {
     try {
       await documentService.delete(id);
       setIsDeleteModalOpen(false);
-      navigate('/dashboard/search');
+      navigate('/dashboard/my');
     } catch (err) {
       alert('Failed to delete document');
       setIsDeleting(false);
