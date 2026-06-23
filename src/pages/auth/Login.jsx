@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { validateForm, ruleRequired, ruleEmail } from '../../utils/validation';
@@ -8,6 +8,8 @@ import Button from '../../components/Button/Button';
 import './Auth.css';
 
 const Login = () => {
+  const location = useLocation();
+  const [successMessage, setSuccessMessage] = useState(location.state?.message || '');
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -16,6 +18,13 @@ const Login = () => {
   const [apiError, setApiError] = useState('');
   const { login, loading } = useAuth();
   const navigate = useNavigate();
+
+  // Clear state so message doesn't persist on refresh
+  React.useEffect(() => {
+    if (location.state?.message) {
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const schema = {
     email: [ruleRequired('Email is required'), ruleEmail('Please enter a valid email')],
@@ -67,6 +76,7 @@ const Login = () => {
           <p className="auth-subtitle">Đăng nhập để truy cập AI Student Hub</p>
         </div>
 
+        {successMessage && <div className="auth-success-alert" style={{ backgroundColor: 'var(--success-50, #f0fdf4)', color: 'var(--success-600, #166534)', padding: '0.75rem', borderRadius: 'var(--radius-md, 8px)', fontSize: '14px', marginBottom: '1rem', textAlign: 'center', fontWeight: 500 }}>{successMessage}</div>}
         {apiError && <div className="auth-error-alert">{apiError}</div>}
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>

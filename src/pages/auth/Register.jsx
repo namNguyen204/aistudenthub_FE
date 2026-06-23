@@ -59,7 +59,7 @@ const Register = () => {
     setLoading(true);
     try {
       await authService.register({
-        name: formData.name,
+        fullName: formData.name,
         email: formData.email,
         password: formData.password,
       });
