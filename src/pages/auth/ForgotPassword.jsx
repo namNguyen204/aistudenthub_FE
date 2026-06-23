@@ -36,9 +36,9 @@ const ForgotPassword = () => {
     setLoading(true);
     try {
       await authService.forgotPassword(email);
-      setSuccess('If an account with that email exists, we sent a password reset link to it.');
+      setSuccess('Nếu tài khoản với email này tồn tại, chúng tôi đã gửi liên kết đặt lại mật khẩu.');
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong. Please try again.');
+      setError(err.response?.data?.message || 'Đã xảy ra lỗi. Vui lòng thử lại.');
     } finally {
       setLoading(false);
     }
@@ -48,8 +48,8 @@ const ForgotPassword = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">Forgot Password</h1>
-          <p className="auth-subtitle">Enter your email to receive a reset link</p>
+          <h1 className="auth-title">Quên Mật Khẩu</h1>
+          <p className="auth-subtitle">Nhập email để nhận liên kết đặt lại</p>
         </div>
 
         {error && <div className="auth-error-alert">{error}</div>}
@@ -65,10 +65,10 @@ const ForgotPassword = () => {
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <Input
-            label="Email Address"
+            label="Địa chỉ Email"
             name="email"
             type="email"
-            placeholder="Enter your registered email"
+            placeholder="Nhập email đã đăng ký của bạn"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -82,14 +82,14 @@ const ForgotPassword = () => {
 
           <div className="mt-4">
             <Button type="submit" fullWidth isLoading={loading}>
-              Send Reset Link
+              Gửi Liên Kết Đặt Lại
             </Button>
           </div>
         </form>
 
         <div className="auth-footer">
           <Link to="/login" className="auth-link flex-center" style={{ gap: '4px' }}>
-            <ArrowLeft size={16} /> Back to Login
+            <ArrowLeft size={16} /> Quay lại Đăng nhập
           </Link>
         </div>
       </div>

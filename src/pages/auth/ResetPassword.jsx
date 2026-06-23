@@ -28,7 +28,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (!token) {
-      setError('Invalid or missing reset token. Please request a new password reset.');
+      setError('Token đặt lại không hợp lệ hoặc bị thiếu. Vui lòng yêu cầu đặt lại mật khẩu mới.');
     }
   }, [token]);
 
@@ -63,7 +63,7 @@ const ResetPassword = () => {
       await authService.resetPassword(token, formData.password);
       setSuccess(true);
     } catch (err) {
-      setError(err.response?.data?.message || 'Password reset failed. The token may be expired.');
+      setError(err.response?.data?.message || 'Đặt lại mật khẩu thất bại. Token có thể đã hết hạn.');
     } finally {
       setLoading(false);
     }
@@ -74,11 +74,11 @@ const ResetPassword = () => {
       <div className="auth-container">
         <div className="auth-card" style={{ textAlign: 'center' }}>
           <div className="auth-header" style={{ marginBottom: '1rem' }}>
-            <h1 className="auth-title">Password Reset!</h1>
-            <p className="auth-subtitle">Your password has been successfully updated.</p>
+            <h1 className="auth-title">Đã Đặt Lại Mật Khẩu!</h1>
+            <p className="auth-subtitle">Mật khẩu của bạn đã được cập nhật thành công.</p>
           </div>
           <Button fullWidth onClick={() => navigate('/login')} className="mt-4">
-            Go to Login <ArrowRight size={18} style={{ marginLeft: '8px' }} />
+            Đến trang Đăng nhập <ArrowRight size={18} style={{ marginLeft: '8px' }} />
           </Button>
         </div>
       </div>
@@ -89,18 +89,18 @@ const ResetPassword = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">Reset Password</h1>
-          <p className="auth-subtitle">Create a new password for your account</p>
+          <h1 className="auth-title">Đặt Lại Mật Khẩu</h1>
+          <p className="auth-subtitle">Tạo mật khẩu mới cho tài khoản của bạn</p>
         </div>
 
         {error && <div className="auth-error-alert">{error}</div>}
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <Input
-            label="New Password"
+            label="Mật khẩu mới"
             name="password"
             type="password"
-            placeholder="Enter new password"
+            placeholder="Nhập mật khẩu mới"
             value={formData.password}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -111,10 +111,10 @@ const ResetPassword = () => {
           />
 
           <Input
-            label="Confirm New Password"
+            label="Xác nhận Mật khẩu mới"
             name="confirmPassword"
             type="password"
-            placeholder="Confirm new password"
+            placeholder="Xác nhận mật khẩu mới"
             value={formData.confirmPassword}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -126,13 +126,13 @@ const ResetPassword = () => {
 
           <div className="mt-4">
             <Button type="submit" fullWidth isLoading={loading} disabled={!token}>
-              Reset Password
+              Đặt Lại Mật Khẩu
             </Button>
           </div>
         </form>
 
         <div className="auth-footer">
-          Remember your password? <Link to="/login" className="auth-link">Sign in</Link>
+          Nhớ mật khẩu của bạn? <Link to="/login" className="auth-link">Đăng nhập</Link>
         </div>
       </div>
     </div>

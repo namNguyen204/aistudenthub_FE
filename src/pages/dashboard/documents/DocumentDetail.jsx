@@ -148,7 +148,7 @@ const DocumentDetail = () => {
     }
   };
 
-  if (loading) return <div style={{ padding: '4rem', textAlign: 'center' }}>Loading document...</div>;
+  if (loading) return <div style={{ padding: '4rem', textAlign: 'center' }}>Đang tải tài liệu...</div>;
   if (error || !doc) return <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--error-600)' }}>{error}</div>;
 
   return (
@@ -156,19 +156,19 @@ const DocumentDetail = () => {
       <div className="preview-section">
         <div className="preview-header">
           <Button variant="outline" onClick={() => navigate(-1)} style={{ padding: '6px 12px' }}>
-            <ArrowLeft size={16} style={{ marginRight: '4px' }} /> Back
+            <ArrowLeft size={16} style={{ marginRight: '4px' }} /> Quay lại
           </Button>
           <h2 className="preview-title" title={doc.fileName}>{doc.fileName}</h2>
           <div className="preview-actions">
             <Button variant="outline" onClick={handleDownload}>
-              <Download size={16} style={{ marginRight: '6px' }} /> Download
+              <Download size={16} style={{ marginRight: '6px' }} /> Tải xuống
             </Button>
           </div>
         </div>
         
         <div className="preview-content">
           {streamLoading ? (
-            <div style={{ color: 'white' }}>Loading preview...</div>
+            <div style={{ color: 'white' }}>Đang tải bản xem trước...</div>
           ) : previewData?.previewMode === 'PDF' && pdfUrl ? (
             <iframe src={`${pdfUrl}#toolbar=0`} className="pdf-iframe" title="PDF Preview" />
           ) : previewData?.previewMode === 'OFFICE' && previewData?.previewUrl ? (
@@ -184,7 +184,7 @@ const DocumentDetail = () => {
           ) : (
             <div style={{ color: 'var(--neutral-400)', textAlign: 'center', padding: '2rem' }}>
               <FileText size={64} style={{ opacity: 0.5, marginBottom: '1rem' }} />
-              <p>{previewData?.message || 'Preview not available for this file type.'}</p>
+              <p>{previewData?.message || 'Không có bản xem trước cho loại tệp này.'}</p>
             </div>
           )}
         </div>
@@ -193,12 +193,12 @@ const DocumentDetail = () => {
       <div className="metadata-section">
         <div className="metadata-header">
           <h1 className="metadata-title">{doc.title}</h1>
-          <p className="metadata-description">{doc.description || 'No description provided.'}</p>
+          <p className="metadata-description">{doc.description || 'Không có mô tả.'}</p>
         </div>
         
         <div className="metadata-body">
           <div className="meta-item">
-            <span className="meta-label">Subject & Major</span>
+            <span className="meta-label">Môn học & Chuyên ngành</span>
             <div className="meta-value">
               {doc.subject ? <span className="meta-badge">{doc.subject}</span> : '-'}
               {doc.major && <span className="meta-badge" style={{ backgroundColor: 'var(--neutral-100)', color: 'var(--neutral-700)' }}>{doc.major}</span>}
@@ -206,42 +206,42 @@ const DocumentDetail = () => {
           </div>
           
           <div className="meta-item">
-            <span className="meta-label">Document Type</span>
+            <span className="meta-label">Loại tài liệu</span>
             <span className="meta-value"><FileText size={16} color="var(--primary-500)"/> {doc.documentType}</span>
           </div>
 
           {doc.folderId && (
             <div className="meta-item">
-              <span className="meta-label">Folder</span>
-              <span className="meta-value"><Folder size={16} color="#f59e0b"/> Saved in Folder</span>
+              <span className="meta-label">Thư mục</span>
+              <span className="meta-value"><Folder size={16} color="#f59e0b"/> Đã lưu trong Thư mục</span>
             </div>
           )}
 
           <div className="meta-item">
-            <span className="meta-label">File Size</span>
+            <span className="meta-label">Kích thước tệp</span>
             <span className="meta-value"><HardDrive size={16} color="var(--neutral-500)"/> {formatFileSize(doc.fileSize)}</span>
           </div>
 
           <div className="meta-item">
-            <span className="meta-label">Uploaded At</span>
+            <span className="meta-label">Ngày tải lên</span>
             <span className="meta-value"><Calendar size={16} color="var(--neutral-500)"/> {new Date(doc.createdAt).toLocaleString()}</span>
           </div>
           
           <div className="meta-item">
-            <span className="meta-label">Visibility</span>
-            <span className="meta-value">{doc.visibility === 'PUBLIC' ? 'Public (Shared)' : 'Private (Only you)'}</span>
+            <span className="meta-label">Quyền riêng tư</span>
+            <span className="meta-value">{doc.visibility === 'PUBLIC' ? 'Công khai (Đã chia sẻ)' : 'Riêng tư (Chỉ mình bạn)'}</span>
           </div>
         </div>
 
         <div className="metadata-footer">
           <Button variant="primary" style={{ width: '100%', backgroundColor: 'var(--primary-600)', color: 'white', marginBottom: '8px' }} onClick={() => navigate('/dashboard/chat', { state: { documentId: doc.id } })}>
-            <MessageSquare size={16} style={{ marginRight: '6px' }} /> Chat with this Document
+            <MessageSquare size={16} style={{ marginRight: '6px' }} /> Trò chuyện với Tài liệu này
           </Button>
           <Button variant="outline" style={{ width: '100%' }} onClick={() => setIsEditModalOpen(true)}>
-            <Edit size={16} style={{ marginRight: '6px' }} /> Edit Info
+            <Edit size={16} style={{ marginRight: '6px' }} /> Chỉnh sửa Thông tin
           </Button>
           <Button variant="outline" style={{ width: '100%', borderColor: 'var(--error-200)', color: 'var(--error-600)' }} onClick={() => setIsDeleteModalOpen(true)} isLoading={isDeleting}>
-            <Trash2 size={16} style={{ marginRight: '6px' }} /> Delete Document
+            <Trash2 size={16} style={{ marginRight: '6px' }} /> Xóa Tài liệu
           </Button>
         </div>
       </div>
@@ -249,17 +249,17 @@ const DocumentDetail = () => {
       <Modal 
         isOpen={isEditModalOpen} 
         onClose={() => setIsEditModalOpen(false)}
-        title="Edit Document Info"
+        title="Chỉnh sửa Thông tin Tài liệu"
         footer={
           <>
-            <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
-            <Button onClick={handleUpdate}>Save Changes</Button>
+            <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>Hủy</Button>
+            <Button onClick={handleUpdate}>Lưu Thay Đổi</Button>
           </>
         }
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <Input 
-            label="Title *" 
+            label="Tiêu đề *" 
             value={formData.title} 
             onChange={(e) => {
               setFormData({ ...formData, title: e.target.value });
@@ -268,18 +268,18 @@ const DocumentDetail = () => {
             error={formErrors.title}
           />
           <Input 
-            label="Description" 
+            label="Mô tả" 
             value={formData.description} 
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           />
           <div className="edit-form-grid">
             <Input 
-              label="Subject" 
+              label="Môn học" 
               value={formData.subject} 
               onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
             />
             <Input 
-              label="Major" 
+              label="Chuyên ngành" 
               value={formData.major} 
               onChange={(e) => setFormData({ ...formData, major: e.target.value })}
             />
@@ -287,25 +287,25 @@ const DocumentDetail = () => {
           
           <div className="edit-form-grid">
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--neutral-700)' }}>Folder</label>
+              <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--neutral-700)' }}>Thư mục</label>
               <select 
                 style={{ padding: '10px 14px', border: '1px solid var(--neutral-300)', borderRadius: 'var(--radius-md)' }}
                 value={formData.folderId}
                 onChange={(e) => setFormData({ ...formData, folderId: e.target.value })}
               >
-                <option value="">-- No Folder --</option>
+                <option value="">-- Không có Thư mục --</option>
                 {folders.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
               </select>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--neutral-700)' }}>Visibility</label>
+              <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--neutral-700)' }}>Quyền riêng tư</label>
               <select 
                 style={{ padding: '10px 14px', border: '1px solid var(--neutral-300)', borderRadius: 'var(--radius-md)' }}
                 value={formData.visibility}
                 onChange={(e) => setFormData({ ...formData, visibility: e.target.value })}
               >
-                <option value="PRIVATE">Private</option>
-                <option value="PUBLIC">Public</option>
+                <option value="PRIVATE">Riêng tư</option>
+                <option value="PUBLIC">Công khai</option>
               </select>
             </div>
           </div>
@@ -318,8 +318,8 @@ const DocumentDetail = () => {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDelete}
         isDeleting={isDeleting}
-        title="Delete Document"
-        message="Are you sure you want to permanently delete this document? This action cannot be undone."
+        title="Xóa Tài liệu"
+        message="Bạn có chắc chắn muốn xóa vĩnh viễn tài liệu này không? Hành động này không thể hoàn tác."
       />
     </div>
   );

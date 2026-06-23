@@ -27,12 +27,12 @@ const Welcome = () => {
         <div className="welcome-nav-links">
           {isAuthenticated ? (
             <button className="btn-primary-glow" onClick={handleGetStarted}>
-              Go to Dashboard
+              Đến Trang Chủ
             </button>
           ) : (
             <>
-              <button className="btn-glass" onClick={() => navigate('/login')}>Login</button>
-              <button className="btn-primary-glow" onClick={() => navigate('/register')}>Sign Up</button>
+              <button className="btn-glass" onClick={() => navigate('/login')}>Đăng nhập</button>
+              <button className="btn-primary-glow" onClick={() => navigate('/register')}>Đăng ký</button>
             </>
           )}
         </div>
@@ -41,22 +41,22 @@ const Welcome = () => {
       <main className="welcome-main">
         <div className="badge">
           <Sparkles size={14} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'text-bottom' }} />
-          The Future of Learning is Here
+          Tương lai của việc học là đây
         </div>
         
         <h1 className="hero-title">
-          <span className="text-gradient">Supercharge Your Study with </span>
+          <span className="text-gradient">Nâng cao hiệu quả học tập với </span>
           <br />
-          <span className="text-gradient-primary">AI-Powered Documents</span>
+          <span className="text-gradient-primary">Tài liệu hỗ trợ bởi AI</span>
         </h1>
         
         <p className="hero-subtitle">
-          Upload your lectures, books, and notes. Chat directly with your materials, organize intelligently, and learn faster than ever before.
+          Tải lên bài giảng, sách và ghi chú của bạn. Trò chuyện trực tiếp với tài liệu, sắp xếp thông minh và học nhanh hơn bao giờ hết.
         </p>
         
         <div className="cta-group">
           <button className="btn-primary-glow btn-large" onClick={handleGetStarted}>
-            {isAuthenticated ? 'Continue to Dashboard' : 'Get Started for Free'}
+            {isAuthenticated ? 'Tiếp tục đến Trang Chủ' : 'Bắt đầu miễn phí'}
           </button>
         </div>
 
@@ -65,24 +65,24 @@ const Welcome = () => {
             <div className="feature-icon">
               <FolderOpen size={28} />
             </div>
-            <h3 className="feature-title">Smart Organization</h3>
-            <p className="feature-desc">Keep all your academic documents perfectly organized in folders. Access them anywhere, anytime with secure cloud storage.</p>
+            <h3 className="feature-title">Sắp xếp Thông minh</h3>
+            <p className="feature-desc">Giữ tất cả tài liệu học tập của bạn được sắp xếp hoàn hảo trong các thư mục. Truy cập mọi lúc, mọi nơi với lưu trữ đám mây bảo mật.</p>
           </div>
           
           <div className="feature-card">
             <div className="feature-icon">
               <Bot size={28} />
             </div>
-            <h3 className="feature-title">Chat with Documents</h3>
-            <p className="feature-desc">Stop reading hundreds of pages. Just ask our AI assistant to summarize, explain, or extract key insights from any document.</p>
+            <h3 className="feature-title">Trò chuyện với Tài liệu</h3>
+            <p className="feature-desc">Ngừng đọc hàng trăm trang tài liệu. Chỉ cần yêu cầu trợ lý AI của chúng tôi tóm tắt, giải thích hoặc trích xuất các thông tin chính từ bất kỳ tài liệu nào.</p>
           </div>
           
           <div className="feature-card">
             <div className="feature-icon">
               <Zap size={28} />
             </div>
-            <h3 className="feature-title">Lightning Fast</h3>
-            <p className="feature-desc">Built with modern web technologies to ensure a seamless, fluid experience. Find what you need instantly.</p>
+            <h3 className="feature-title">Tốc độ Nhanh chóng</h3>
+            <p className="feature-desc">Được xây dựng với các công nghệ web hiện đại để đảm bảo trải nghiệm mượt mà, liền mạch. Tìm thấy những gì bạn cần ngay lập tức.</p>
           </div>
         </div>
       </main>

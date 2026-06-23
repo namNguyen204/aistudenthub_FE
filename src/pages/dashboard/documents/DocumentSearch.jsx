@@ -136,11 +136,11 @@ const DocumentSearch = () => {
     <div className="premium-page-wrapper document-search-container">
       <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 className="page-title">My Documents</h1>
-          <p className="page-description">Find exactly what you need across all your folders and the hub.</p>
+          <h1 className="page-title">Tài liệu của tôi</h1>
+          <p className="page-description">Tìm chính xác những gì bạn cần trên tất cả thư mục và hub.</p>
         </div>
         <Button onClick={() => navigate('/dashboard/upload')} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <FileText size={18} /> Upload Document
+          <FileText size={18} /> Tải lên Tài liệu
         </Button>
       </div>
 
@@ -153,7 +153,7 @@ const DocumentSearch = () => {
             <input 
               type="text" 
               className="search-input" 
-              placeholder="Search by title, description, or keyword..." 
+              placeholder="Tìm kiếm theo tiêu đề, mô tả hoặc từ khóa..." 
               value={filters.keyword}
               onChange={(e) => setFilters(prev => ({ ...prev, keyword: e.target.value }))}
             />
@@ -164,7 +164,7 @@ const DocumentSearch = () => {
             value={filters.folderId}
             onChange={(e) => setFilters(prev => ({ ...prev, folderId: e.target.value, page: 0 }))}
           >
-            <option value="">All Folders</option>
+            <option value="">Tất cả Thư mục</option>
             {folders.map(f => (
               <option key={f.id} value={f.id}>{f.name}</option>
             ))}
@@ -175,31 +175,31 @@ const DocumentSearch = () => {
             value={filters.documentType}
             onChange={(e) => setFilters(prev => ({ ...prev, documentType: e.target.value, page: 0 }))}
           >
-            <option value="">All Types</option>
-            <option value="LECTURE">Lecture Note</option>
-            <option value="ASSIGNMENT">Assignment</option>
-            <option value="EXAM_PREP">Exam Prep</option>
-            <option value="REFERENCE">Reference</option>
-            <option value="OTHER">Other</option>
+            <option value="">Tất cả Loại</option>
+            <option value="LECTURE">Bài giảng</option>
+            <option value="ASSIGNMENT">Bài tập</option>
+            <option value="EXAM_PREP">Đề cương Ôn thi</option>
+            <option value="REFERENCE">Tài liệu Tham khảo</option>
+            <option value="OTHER">Khác</option>
           </select>
-          <Button type="submit" style={{ padding: '0 32px' }}>Search</Button>
+          <Button type="submit" style={{ padding: '0 32px' }}>Tìm kiếm</Button>
         </form>
       </div>
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--neutral-400)' }}>
-          Searching documents...
+          Đang tìm kiếm tài liệu...
         </div>
       ) : documents.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '4rem', backgroundColor: 'var(--glass-bg)', borderRadius: 'var(--radius-xl)' }}>
           <FileText size={48} color="var(--neutral-300)" style={{ margin: '0 auto 1rem' }} />
-          <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-700)' }}>No documents found</h3>
-          <p style={{ color: 'var(--neutral-500)' }}>Try adjusting your search criteria or upload a new document.</p>
+          <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-700)' }}>Không tìm thấy tài liệu nào</h3>
+          <p style={{ color: 'var(--neutral-500)' }}>Hãy thử điều chỉnh tiêu chí tìm kiếm hoặc tải lên tài liệu mới.</p>
         </div>
       ) : (
         <>
           <div style={{ fontSize: '14px', color: 'var(--neutral-500)', fontWeight: 500 }}>
-            Found {totalElements} document(s)
+            Tìm thấy {totalElements} tài liệu
           </div>
           
           <div className="documents-grid">
@@ -219,17 +219,17 @@ const DocumentSearch = () => {
                 </div>
                 
                 <p className="doc-description">
-                  {doc.description || 'No description provided for this document.'}
+                  {doc.description || 'Không có mô tả cho tài liệu này.'}
                 </p>
 
                 <div className="doc-footer">
                   <span className="doc-size">{formatFileSize(doc.fileSize)}</span>
                   <div className="doc-actions">
                     <button className="doc-btn" onClick={(e) => handlePreview(doc.id, e)}>
-                      <Eye size={16} /> View
+                      <Eye size={16} /> Xem
                     </button>
                     <button className="doc-btn" onClick={(e) => handleDownload(doc.id, doc.fileName, e)}>
-                      <Download size={16} /> Save
+                      <Download size={16} /> Lưu
                     </button>
                   </div>
                 </div>
@@ -244,15 +244,15 @@ const DocumentSearch = () => {
                 disabled={filters.page === 0}
                 onClick={() => setFilters(prev => ({ ...prev, page: prev.page - 1 }))}
               >
-                Previous
+                Trang trước
               </Button>
-              <span className="pagination-text">Page {filters.page + 1} of {totalPages}</span>
+              <span className="pagination-text">Trang {filters.page + 1} trên {totalPages}</span>
               <Button 
                 variant="outline" 
                 disabled={filters.page === totalPages - 1}
                 onClick={() => setFilters(prev => ({ ...prev, page: prev.page + 1 }))}
               >
-                Next
+                Trang tiếp
               </Button>
             </div>
           )}

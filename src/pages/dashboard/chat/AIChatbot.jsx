@@ -110,7 +110,7 @@ const AIChatbot = () => {
       loadSessions();
       setSessionToDelete(null);
     } catch (err) {
-      alert('Failed to delete session');
+      alert('Xóa phiên thất bại');
     } finally {
       setIsDeletingSession(false);
     }
@@ -165,7 +165,7 @@ const AIChatbot = () => {
       setMessages(prev => [...prev, {
         id: Date.now().toString() + '-err',
         sender: 'AI',
-        message: 'Sorry, I encountered an error processing your request. Please try again.',
+        message: 'Xin lỗi, tôi gặp lỗi khi xử lý yêu cầu của bạn. Vui lòng thử lại.',
         createdAt: new Date().toISOString(),
         isError: true
       }]);
@@ -196,14 +196,14 @@ const AIChatbot = () => {
       <aside className="chat-sidebar">
         <div className="chat-sidebar-header">
           <button className="new-chat-btn" onClick={handleNewChat}>
-            <Plus size={18} /> New Chat
+            <Plus size={18} /> Cuộc trò chuyện mới
           </button>
         </div>
         
         <div className="chat-sessions-list">
           {sessions.length === 0 ? (
             <div style={{ textAlign: 'center', color: 'var(--neutral-400)', padding: '2rem 1rem', fontSize: '13px' }}>
-              No previous chats found.
+              Không tìm thấy cuộc trò chuyện trước đó.
             </div>
           ) : (
             sessions.map(session => (
@@ -215,14 +215,14 @@ const AIChatbot = () => {
                 <div className="session-info">
                   <span className="session-title">
                     <MessageSquare size={14} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'text-bottom' }}/>
-                    {session.title || 'New Chat'}
+                    {session.title || 'Cuộc trò chuyện mới'}
                   </span>
                   <span className="session-date">{new Date(session.updatedAt || session.createdAt).toLocaleDateString()}</span>
                 </div>
                 <button 
                   className="delete-session-btn" 
                   onClick={(e) => confirmDeleteSession(session.id, e)}
-                  title="Delete chat"
+                  title="Xóa cuộc trò chuyện"
                 >
                   <Trash2 size={14} />
                 </button>
@@ -240,15 +240,15 @@ const AIChatbot = () => {
               <Bot size={24} />
             </div>
             <div>
-              <h2 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-900)' }}>AI Assistant</h2>
+              <h2 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-900)' }}>Trợ lý AI</h2>
               <p style={{ fontSize: '13px', color: 'var(--neutral-500)' }}>
-                {selectedDocumentId ? 'Answering based on your document' : 'General knowledge & assistance'}
+                {selectedDocumentId ? 'Trả lời dựa trên tài liệu của bạn' : 'Kiến thức chung & hỗ trợ'}
               </p>
             </div>
           </div>
           
           <div className="context-selector">
-            <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--neutral-600)' }}>Chat Context:</span>
+            <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--neutral-600)' }}>Ngữ cảnh trò chuyện:</span>
             <div style={{ position: 'relative' }}>
               <FileText size={16} style={{ position: 'absolute', left: '10px', top: '10px', color: 'var(--neutral-500)' }} />
               <select 
@@ -264,7 +264,7 @@ const AIChatbot = () => {
                   }
                 }}
               >
-                <option value="">General AI (No Document)</option>
+                <option value="">Trí tuệ nhân tạo (Không có tài liệu)</option>
                 {myDocuments.map(doc => (
                   <option key={doc.id} value={doc.id}>{doc.title}</option>
                 ))}
@@ -279,11 +279,11 @@ const AIChatbot = () => {
               <div className="empty-chat-icon">
                 <Bot size={40} />
               </div>
-              <h3 className="empty-chat-title">How can I help you today?</h3>
+              <h3 className="empty-chat-title">Hôm nay tôi có thể giúp gì cho bạn?</h3>
               <p className="empty-chat-desc">
                 {selectedDocumentId 
-                  ? "I'm ready to answer questions specifically about the document you've selected."
-                  : "I'm your intelligent assistant. Ask me anything, or select a document above to ground my answers in your specific materials."}
+                  ? "Tôi đã sẵn sàng trả lời các câu hỏi cụ thể về tài liệu bạn đã chọn."
+                  : "Tôi là trợ lý thông minh của bạn. Hãy hỏi tôi bất cứ điều gì, hoặc chọn một tài liệu ở trên để dựa vào đó trả lời."}
               </p>
             </div>
           ) : (
@@ -324,7 +324,7 @@ const AIChatbot = () => {
             <textarea
               ref={textareaRef}
               className="chat-textarea"
-              placeholder={selectedDocumentId ? "Ask a question about this document..." : "Message AI Assistant..."}
+              placeholder={selectedDocumentId ? "Hỏi một câu hỏi về tài liệu này..." : "Nhắn tin cho Trợ lý AI..."}
               value={inputText}
               onChange={(e) => {
                 setInputText(e.target.value);
@@ -342,7 +342,7 @@ const AIChatbot = () => {
             </button>
           </div>
           <div style={{ fontSize: '11px', textAlign: 'center', marginTop: '8px', color: 'var(--neutral-400)' }}>
-            AI can make mistakes. Consider verifying important information.
+            AI có thể mắc lỗi. Hãy cân nhắc xác minh các thông tin quan trọng.
           </div>
         </div>
       </main>
@@ -353,8 +353,8 @@ const AIChatbot = () => {
         onClose={() => setSessionToDelete(null)}
         onConfirm={handleDeleteSession}
         isDeleting={isDeletingSession}
-        title="Delete Chat Session"
-        message="Are you sure you want to delete this chat session? All messages inside this session will be permanently removed. This action cannot be undone."
+        title="Xóa phiên trò chuyện"
+        message="Bạn có chắc chắn muốn xóa phiên trò chuyện này không? Tất cả các tin nhắn bên trong phiên này sẽ bị xóa vĩnh viễn. Hành động này không thể hoàn tác."
       />
     </div>
   );

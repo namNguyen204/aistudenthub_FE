@@ -55,7 +55,7 @@ const Login = () => {
       await login(formData.email, formData.password);
       navigate('/dashboard');
     } catch (err) {
-      setApiError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      setApiError(err.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
     }
   };
 
@@ -63,18 +63,18 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">Welcome Back</h1>
-          <p className="auth-subtitle">Login to access AI Student Hub</p>
+          <h1 className="auth-title">Chào mừng trở lại</h1>
+          <p className="auth-subtitle">Đăng nhập để truy cập AI Student Hub</p>
         </div>
 
         {apiError && <div className="auth-error-alert">{apiError}</div>}
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <Input
-            label="Email Address"
+            label="Địa chỉ Email"
             name="email"
             type="email"
-            placeholder="Enter your email"
+            placeholder="Nhập email của bạn"
             value={formData.email}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -84,10 +84,10 @@ const Login = () => {
           />
 
           <Input
-            label="Password"
+            label="Mật khẩu"
             name="password"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Nhập mật khẩu của bạn"
             value={formData.password}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -98,17 +98,17 @@ const Login = () => {
 
           <div style={{ textAlign: 'right', marginBottom: '1rem' }}>
             <Link to="/forgot-password" className="auth-link" style={{ fontSize: '14px' }}>
-              Forgot Password?
+              Quên mật khẩu?
             </Link>
           </div>
 
           <Button type="submit" fullWidth isLoading={loading}>
-            Sign In
+            Đăng nhập
           </Button>
         </form>
 
         <div className="auth-footer">
-          Don't have an account? <Link to="/register" className="auth-link">Sign up</Link>
+          Chưa có tài khoản? <Link to="/register" className="auth-link">Đăng ký</Link>
         </div>
       </div>
     </div>

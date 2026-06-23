@@ -63,9 +63,9 @@ const Register = () => {
         email: formData.email,
         password: formData.password,
       });
-      navigate('/login', { state: { message: 'Registration successful! Please login.' } });
+      navigate('/login', { state: { message: 'Đăng ký thành công! Vui lòng đăng nhập.' } });
     } catch (err) {
-      setApiError(err.response?.data?.message || 'Registration failed. Please try again.');
+      setApiError(err.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.');
     } finally {
       setLoading(false);
     }
@@ -75,18 +75,18 @@ const Register = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">Create Account</h1>
-          <p className="auth-subtitle">Join AI Student Hub today</p>
+          <h1 className="auth-title">Tạo Tài Khoản</h1>
+          <p className="auth-subtitle">Tham gia AI Student Hub ngay hôm nay</p>
         </div>
 
         {apiError && <div className="auth-error-alert">{apiError}</div>}
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <Input
-            label="Full Name"
+            label="Họ và Tên"
             name="name"
             type="text"
-            placeholder="Enter your full name"
+            placeholder="Nhập họ và tên của bạn"
             value={formData.name}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -96,10 +96,10 @@ const Register = () => {
           />
 
           <Input
-            label="Email Address"
+            label="Địa chỉ Email"
             name="email"
             type="email"
-            placeholder="Enter your email"
+            placeholder="Nhập email của bạn"
             value={formData.email}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -109,10 +109,10 @@ const Register = () => {
           />
 
           <Input
-            label="Password"
+            label="Mật khẩu"
             name="password"
             type="password"
-            placeholder="Create a strong password"
+            placeholder="Tạo mật khẩu mạnh"
             value={formData.password}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -122,10 +122,10 @@ const Register = () => {
           />
 
           <Input
-            label="Confirm Password"
+            label="Xác nhận mật khẩu"
             name="confirmPassword"
             type="password"
-            placeholder="Confirm your password"
+            placeholder="Xác nhận mật khẩu của bạn"
             value={formData.confirmPassword}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -136,13 +136,13 @@ const Register = () => {
 
           <div className="mt-4">
             <Button type="submit" fullWidth isLoading={loading}>
-              Sign Up
+              Đăng ký
             </Button>
           </div>
         </form>
 
         <div className="auth-footer">
-          Already have an account? <Link to="/login" className="auth-link">Sign in</Link>
+          Đã có tài khoản? <Link to="/login" className="auth-link">Đăng nhập</Link>
         </div>
       </div>
     </div>

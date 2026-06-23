@@ -7,8 +7,8 @@ const ConfirmDeleteModal = ({
   onClose, 
   onConfirm, 
   isDeleting, 
-  title = "Confirm Deletion", 
-  message = "Are you sure you want to delete this item? This action cannot be undone." 
+  title = "Xác nhận Xóa", 
+  message = "Bạn có chắc chắn muốn xóa mục này không? Hành động này không thể hoàn tác." 
 }) => {
   return (
     <Modal 
@@ -17,13 +17,13 @@ const ConfirmDeleteModal = ({
       title={title}
       footer={
         <>
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button variant="outline" onClick={onClose}>Hủy</Button>
           <Button 
             onClick={onConfirm} 
             isLoading={isDeleting}
             style={{ backgroundColor: 'var(--error-600)', borderColor: 'var(--error-600)', color: 'white' }}
           >
-            Delete
+            Xóa
           </Button>
         </>
       }

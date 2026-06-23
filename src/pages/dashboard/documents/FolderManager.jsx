@@ -118,24 +118,24 @@ const FolderManager = () => {
       
       <div className="folder-header">
         <div>
-          <h1 className="page-title">My Folders</h1>
-          <p className="page-description">Organize your academic documents into custom folders.</p>
+          <h1 className="page-title">Thư mục của tôi</h1>
+          <p className="page-description">Sắp xếp tài liệu học tập vào các thư mục tùy chỉnh.</p>
         </div>
         <Button onClick={() => handleOpenModal()} className="flex-center" style={{ gap: '8px' }}>
-          <Plus size={20} /> Create Folder
+          <Plus size={20} /> Tạo Thư mục
         </Button>
       </div>
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--neutral-400)' }}>
-          Loading folders...
+          Đang tải thư mục...
         </div>
       ) : folders.length === 0 ? (
         <div className="empty-state">
           <FolderOpen size={48} color="var(--neutral-300)" style={{ marginBottom: '1rem' }} />
-          <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-700)' }}>No folders yet</h3>
-          <p style={{ color: 'var(--neutral-500)', marginBottom: '1.5rem' }}>Create your first folder to start organizing.</p>
-          <Button onClick={() => handleOpenModal()} variant="outline">Create Folder</Button>
+          <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-700)' }}>Chưa có thư mục nào</h3>
+          <p style={{ color: 'var(--neutral-500)', marginBottom: '1.5rem' }}>Tạo thư mục đầu tiên để bắt đầu sắp xếp.</p>
+          <Button onClick={() => handleOpenModal()} variant="outline">Tạo Thư mục</Button>
         </div>
       ) : (
         <div className="folder-grid">
@@ -165,7 +165,7 @@ const FolderManager = () => {
               </div>
 
               <div className="folder-footer">
-                <span>{folder.documentCount || 0} Documents</span>
+                <span>{folder.documentCount || 0} Tài liệu</span>
                 <span>{new Date(folder.createdAt || Date.now()).toLocaleDateString()}</span>
               </div>
             </div>
@@ -177,20 +177,20 @@ const FolderManager = () => {
       <Modal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)}
-        title={editingId ? 'Edit Folder' : 'Create New Folder'}
+        title={editingId ? 'Chỉnh sửa Thư mục' : 'Tạo Thư mục mới'}
         footer={
           <>
-            <Button variant="text" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+            <Button variant="text" onClick={() => setIsModalOpen(false)}>Hủy</Button>
             <Button onClick={handleSubmit} isLoading={submitting}>
-              {editingId ? 'Save Changes' : 'Create Folder'}
+              {editingId ? 'Lưu Thay đổi' : 'Tạo Thư mục'}
             </Button>
           </>
         }
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <Input 
-            label="Folder Name" 
-            placeholder="e.g. Machine Learning Docs"
+            label="Tên Thư mục" 
+            placeholder="VD: Tài liệu Machine Learning"
             value={formData.name}
             onChange={(e) => {
               const val = e.target.value;
@@ -201,21 +201,21 @@ const FolderManager = () => {
             }}
             onBlur={(e) => {
               if (!e.target.value.trim()) {
-                setFormErrors(prev => ({ ...prev, name: 'Folder name is required' }));
+                setFormErrors(prev => ({ ...prev, name: 'Tên thư mục là bắt buộc' }));
               }
             }}
             error={formErrors.name}
             required
           />
           <Input 
-            label="Description (Optional)" 
-            placeholder="What is this folder for?"
+            label="Mô tả (Tùy chọn)" 
+            placeholder="Thư mục này dùng để làm gì?"
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           />
           <div>
             <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--neutral-700)', marginBottom: '4px' }}>
-              Folder Color
+              Màu Thư mục
             </label>
             <div className="color-picker">
               {PRESET_COLORS.map(color => (
@@ -237,8 +237,8 @@ const FolderManager = () => {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDelete}
         isDeleting={submitting}
-        title="Delete Folder"
-        message={<>Are you sure you want to delete <strong>{folderToDelete?.name}</strong>? This action cannot be undone.</>}
+        title="Xóa Thư mục"
+        message={<>Bạn có chắc chắn muốn xóa <strong>{folderToDelete?.name}</strong>? Hành động này không thể hoàn tác.</>}
       />
     </div>
   );

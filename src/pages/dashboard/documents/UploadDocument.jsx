@@ -109,7 +109,7 @@ const UploadDocument = () => {
       await documentService.upload(file, requestData);
       navigate('/dashboard/my', { state: { toastMessage: 'Document uploaded successfully!' } });
     } catch (err) {
-      setApiError(err.response?.data?.message || 'Failed to upload document. Please try again.');
+      setApiError(err.response?.data?.message || 'Tải lên tài liệu thất bại. Vui lòng thử lại.');
       setIsSubmitting(false);
     }
   };
@@ -117,8 +117,8 @@ const UploadDocument = () => {
   return (
     <div className="premium-page-wrapper upload-container">
       <div className="page-header">
-        <h1 className="page-title">Upload Document</h1>
-        <p className="page-description">Securely upload learning materials, lectures, and resources to your workspace.</p>
+        <h1 className="page-title">Tải lên Tài liệu</h1>
+        <p className="page-description">Tải lên an toàn tài liệu học tập, bài giảng và tài nguyên vào không gian làm việc của bạn.</p>
       </div>
 
       <div className="upload-card">
@@ -134,8 +134,8 @@ const UploadDocument = () => {
               <div className="dropzone-icon">
                 <UploadCloud size={32} />
               </div>
-              <p className="dropzone-text">Click or drag file to this area to upload</p>
-              <p className="dropzone-subtext">Support for a single PDF, DOCX, or PPTX file. Max size 50MB.</p>
+              <p className="dropzone-text">Nhấp hoặc kéo tệp vào khu vực này để tải lên</p>
+              <p className="dropzone-subtext">Hỗ trợ một tệp PDF, DOCX hoặc PPTX. Kích thước tối đa 50MB.</p>
               <input 
                 type="file" 
                 ref={fileInputRef} 
@@ -177,8 +177,8 @@ const UploadDocument = () => {
 
         <form className="upload-form" onSubmit={handleSubmit}>
           <Input 
-            label="Document Title *" 
-            placeholder="e.g. Chapter 1: Introduction to AI"
+            label="Tiêu đề Tài liệu *" 
+            placeholder="VD: Chương 1: Giới thiệu về AI"
             value={formData.title}
             onChange={(e) => {
               setFormData({ ...formData, title: e.target.value });
@@ -186,29 +186,29 @@ const UploadDocument = () => {
             }}
             onBlur={(e) => {
               if (!e.target.value.trim()) {
-                setFormErrors(prev => ({ ...prev, title: 'Title is required' }));
+                setFormErrors(prev => ({ ...prev, title: 'Tiêu đề là bắt buộc' }));
               }
             }}
             error={formErrors.title}
           />
 
           <Input 
-            label="Description" 
-            placeholder="Brief overview of this document..."
+            label="Mô tả" 
+            placeholder="Tổng quan ngắn gọn về tài liệu này..."
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           />
 
           <div className="form-row">
             <Input 
-              label="Subject" 
-              placeholder="e.g. SWP391"
+              label="Môn học" 
+              placeholder="VD: SWP391"
               value={formData.subject}
               onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
             />
             <Input 
-              label="Major" 
-              placeholder="e.g. Software Engineering"
+              label="Chuyên ngành" 
+              placeholder="VD: Kỹ thuật Phần mềm"
               value={formData.major}
               onChange={(e) => setFormData({ ...formData, major: e.target.value })}
             />
@@ -216,13 +216,13 @@ const UploadDocument = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Save to Folder</label>
+              <label className="form-label">Lưu vào Thư mục</label>
               <select 
                 className="form-select"
                 value={formData.folderId}
                 onChange={(e) => setFormData({ ...formData, folderId: e.target.value })}
               >
-                <option value="">-- No Folder (Root) --</option>
+                <option value="">-- Không có Thư mục (Gốc) --</option>
                 {folders.map(folder => (
                   <option key={folder.id} value={folder.id}>{folder.name}</option>
                 ))}
@@ -230,23 +230,23 @@ const UploadDocument = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Document Type</label>
+              <label className="form-label">Loại tài liệu</label>
               <select 
                 className="form-select"
                 value={formData.documentType}
                 onChange={(e) => setFormData({ ...formData, documentType: e.target.value })}
               >
-                <option value="LECTURE">Lecture Note</option>
-                <option value="ASSIGNMENT">Assignment</option>
-                <option value="EXAM_PREP">Exam Prep</option>
-                <option value="REFERENCE">Reference</option>
-                <option value="OTHER">Other</option>
+                <option value="LECTURE">Bài giảng</option>
+                <option value="ASSIGNMENT">Bài tập</option>
+                <option value="EXAM_PREP">Đề cương Ôn thi</option>
+                <option value="REFERENCE">Tài liệu Tham khảo</option>
+                <option value="OTHER">Khác</option>
               </select>
             </div>
           </div>
 
           <div className="form-group" style={{ marginTop: '0.5rem' }}>
-            <label className="form-label">Visibility</label>
+            <label className="form-label">Quyền riêng tư</label>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '14px', color: 'var(--neutral-700)' }}>
                 <input 
@@ -257,7 +257,7 @@ const UploadDocument = () => {
                   onChange={(e) => setFormData({ ...formData, visibility: e.target.value })}
                   style={{ accentColor: 'var(--primary-600)' }}
                 />
-                Private (Only me)
+                Riêng tư (Chỉ mình tôi)
               </label>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '14px', color: 'var(--neutral-700)' }}>
                 <input 
@@ -268,15 +268,15 @@ const UploadDocument = () => {
                   onChange={(e) => setFormData({ ...formData, visibility: e.target.value })}
                   style={{ accentColor: 'var(--primary-600)' }}
                 />
-                Public (Share with everyone)
+                Công khai (Chia sẻ với mọi người)
               </label>
             </div>
           </div>
 
           <div className="upload-actions">
-            <Button variant="outline" type="button" onClick={() => navigate('/dashboard')}>Cancel</Button>
+            <Button variant="outline" type="button" onClick={() => navigate('/dashboard')}>Hủy</Button>
             <Button type="submit" isLoading={isSubmitting} disabled={isSubmitting || (!file && !formData.title)}>
-              Upload to Hub
+              Tải lên Hub
             </Button>
           </div>
         </form>

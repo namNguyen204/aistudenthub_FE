@@ -61,7 +61,7 @@ const Input = forwardRef(({
                 type="button" 
                 onClick={togglePassword} 
                 className="btn-toggle-password"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={showPassword ? "Ẩn mật khẩu" : "Hiển thị mật khẩu"}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>

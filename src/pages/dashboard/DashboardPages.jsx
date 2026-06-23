@@ -13,17 +13,17 @@ const PageWrapper = ({ title, description }) => (
         <HardHat size={32} />
       </div>
       <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--neutral-900)', marginBottom: '8px' }}>
-        Under Construction
+        Đang xây dựng
       </h3>
       <p style={{ color: 'var(--neutral-500)', maxWidth: '400px' }}>
-        This module is currently being built. Check back soon for exciting updates to the AI Student Hub!
+        Mô-đun này hiện đang được xây dựng. Vui lòng quay lại sau để xem những bản cập nhật thú vị cho AI Student Hub!
       </p>
     </div>
   </div>
 );
 
-export const DashboardHome = () => <PageWrapper title="Dashboard Home" description="Welcome back to AI Student Hub. Here is an overview of your recent learning activities and document uploads." />;
-export const UserProfile = () => <PageWrapper title="My Profile" description="Update your personal information, manage security settings, and customize your experience." />;
+export const DashboardHome = () => <PageWrapper title="Trang chủ" description="Chào mừng trở lại AI Student Hub. Dưới đây là tổng quan về các hoạt động học tập gần đây và tài liệu đã tải lên của bạn." />;
+export const UserProfile = () => <PageWrapper title="Hồ sơ của tôi" description="Cập nhật thông tin cá nhân, quản lý cài đặt bảo mật và tùy chỉnh trải nghiệm của bạn." />;
 
-export const AdminDocumentList = () => <PageWrapper title="Manage Documents" description="Full administrative access to view, edit, approve, or securely delete all documents across the entire system." />;
-export const AdminSettings = () => <PageWrapper title="System Settings" description="Manage global system configurations, user roles, and platform integrations." />;
+export const AdminDocumentList = () => <PageWrapper title="Quản lý Tài liệu" description="Toàn quyền quản trị để xem, chỉnh sửa, phê duyệt hoặc xóa an toàn tất cả các tài liệu trên toàn bộ hệ thống." />;
+export const AdminSettings = () => <PageWrapper title="Cài đặt Hệ thống" description="Quản lý cấu hình hệ thống toàn cầu, vai trò người dùng và tích hợp nền tảng." />;

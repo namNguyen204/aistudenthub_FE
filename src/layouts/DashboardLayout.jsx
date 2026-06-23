@@ -24,17 +24,17 @@ const DashboardLayout = () => {
   const isAdmin = role === 'ADMIN';
 
   const userNavigation = [
-    { name: 'Dashboard', to: '/dashboard', icon: <BookOpen size={20} /> },
-    { name: 'My Documents', to: '/dashboard/my', icon: <Search size={20} /> },
-    { name: 'AI Chatbot', to: '/dashboard/chat', icon: <MessageSquare size={20} /> },
-    { name: 'My Folders', to: '/dashboard/folders', icon: <Folder size={20} /> },
-    { name: 'Upload Document', to: '/dashboard/upload', icon: <Upload size={20} /> },
-    { name: 'My Profile', to: '/dashboard/profile', icon: <Settings size={20} /> },
+    { name: 'Trang chủ', to: '/dashboard', icon: <BookOpen size={20} /> },
+    { name: 'Tài liệu của tôi', to: '/dashboard/my', icon: <Search size={20} /> },
+    { name: 'Trò chuyện AI', to: '/dashboard/chat', icon: <MessageSquare size={20} /> },
+    { name: 'Thư mục của tôi', to: '/dashboard/folders', icon: <Folder size={20} /> },
+    { name: 'Tải lên Tài liệu', to: '/dashboard/upload', icon: <Upload size={20} /> },
+    { name: 'Hồ sơ của tôi', to: '/dashboard/profile', icon: <Settings size={20} /> },
   ];
 
   const adminNavigation = [
-    { name: 'Manage Documents', to: '/admin/documents', icon: <FileText size={20} /> },
-    { name: 'System Settings', to: '/admin/settings', icon: <Shield size={20} /> },
+    { name: 'Quản lý Tài liệu', to: '/admin/documents', icon: <FileText size={20} /> },
+    { name: 'Cài đặt Hệ thống', to: '/admin/settings', icon: <Shield size={20} /> },
   ];
 
   const navigation = isAdmin ? adminNavigation : userNavigation;
@@ -73,7 +73,7 @@ const DashboardLayout = () => {
           </div>
           <button className="logout-btn" onClick={logout}>
             <LogOut size={18} />
-            <span>Logout</span>
+            <span>Đăng xuất</span>
           </button>
         </div>
       </aside>
@@ -82,7 +82,7 @@ const DashboardLayout = () => {
         <header className="dashboard-header">
           <div className="header-search">
             <Search size={18} color="var(--neutral-400)" />
-            <input type="text" placeholder="Quick search across hub..." />
+            <input type="text" placeholder="Tìm kiếm nhanh trong hub..." />
           </div>
           <div className="header-actions">
             <button className="header-icon-btn">
