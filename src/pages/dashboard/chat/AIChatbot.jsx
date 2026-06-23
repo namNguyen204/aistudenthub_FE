@@ -161,11 +161,14 @@ const AIChatbot = () => {
       
     } catch (err) {
       console.error('Chat error', err);
+      
+      const apiErrorMessage = err.response?.data?.message || 'Xin lỗi, tôi gặp lỗi khi xử lý yêu cầu của bạn. Vui lòng thử lại.';
+      
       // Show error as a system message
       setMessages(prev => [...prev, {
         id: Date.now().toString() + '-err',
         sender: 'AI',
-        message: 'Xin lỗi, tôi gặp lỗi khi xử lý yêu cầu của bạn. Vui lòng thử lại.',
+        message: apiErrorMessage,
         createdAt: new Date().toISOString(),
         isError: true
       }]);

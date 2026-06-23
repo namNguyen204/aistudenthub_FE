@@ -24,7 +24,7 @@ const DocumentDetail = () => {
   
   const [doc, setDoc] = useState(null);
   const [previewData, setPreviewData] = useState(null);
-  const [pdfUrl, setPdfUrl] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [streamLoading, setStreamLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -49,7 +49,7 @@ const DocumentDetail = () => {
     loadFolders();
     
     return () => {
-      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+      if (fileUrl) URL.revokeObjectURL(fileUrl);
     };
   }, [id]);
 
@@ -79,8 +79,8 @@ const DocumentDetail = () => {
       const preview = await documentService.getPreview(id);
       setPreviewData(preview);
 
-      if (preview && preview.previewMode === 'PDF') {
-        fetchPdfStream();
+      if (preview && (preview.previewMode === 'PDF' || preview.previewMode === 'IMAGE')) {
+        fetchFileStream();
       } else {
         setStreamLoading(false);
       }
@@ -92,13 +92,13 @@ const DocumentDetail = () => {
     }
   };
 
-  const fetchPdfStream = async () => {
+  const fetchFileStream = async () => {
     try {
       setStreamLoading(true);
       const blob = await documentService.stream(id);
       if (blob) {
         const url = URL.createObjectURL(blob);
-        setPdfUrl(url);
+        setFileUrl(url);
       }
     } catch (err) {
       console.error("Failed to stream document", err);
@@ -169,8 +169,12 @@ const DocumentDetail = () => {
         <div className="preview-content">
           {streamLoading ? (
             <div style={{ color: 'white' }}>Đang tải bản xem trước...</div>
-          ) : previewData?.previewMode === 'PDF' && pdfUrl ? (
-            <iframe src={`${pdfUrl}#toolbar=0`} className="pdf-iframe" title="PDF Preview" />
+          ) : previewData?.previewMode === 'IMAGE' && fileUrl ? (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', backgroundColor: '#fff' }}>
+              <img src={fileUrl} alt="Document Preview" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+            </div>
+          ) : previewData?.previewMode === 'PDF' && fileUrl ? (
+            <iframe src={`${fileUrl}#toolbar=0`} className="pdf-iframe" title="PDF Preview" />
           ) : previewData?.previewMode === 'OFFICE' && previewData?.previewUrl ? (
             <iframe 
               src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(previewData.previewUrl)}`} 
