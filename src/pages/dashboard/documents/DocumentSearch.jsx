@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Search, FileText, Download, Eye, Filter, FileCode2, FileSpreadsheet, FileIcon } from 'lucide-react';
 import documentService from '../../../services/document.service';
 import folderService from '../../../services/folder.service';
@@ -45,10 +45,11 @@ const DocumentSearch = () => {
     window.history.replaceState({}, document.title);
   };
 
+  const [searchParams] = useSearchParams();
   const [filters, setFilters] = useState({
-    keyword: '',
-    folderId: '',
-    documentType: '',
+    keyword: searchParams.get('keyword') || '',
+    folderId: searchParams.get('folderId') || '',
+    documentType: searchParams.get('documentType') || '',
     page: 0,
     size: 12
   });

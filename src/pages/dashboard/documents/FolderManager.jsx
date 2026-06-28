@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Folder, MoreVertical, Edit2, Trash2, Plus, FolderOpen } from 'lucide-react';
 import folderService from '../../../services/folder.service';
 import Button from '../../../components/Button/Button';
@@ -20,6 +21,7 @@ const PRESET_COLORS = [
 ];
 
 const FolderManager = () => {
+  const navigate = useNavigate();
   const [folders, setFolders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -143,7 +145,8 @@ const FolderManager = () => {
             <div 
               key={folder.id} 
               className="folder-card" 
-              style={{ '--folder-color': folder.color || 'var(--primary-500)' }}
+              style={{ '--folder-color': folder.color || 'var(--primary-500)', cursor: 'pointer' }}
+              onClick={() => navigate(`/dashboard/my?folderId=${folder.id}`)}
             >
               <div className="folder-card-header">
                 <div className="folder-icon-wrapper">
