@@ -36,7 +36,7 @@ const ForgotPassword = () => {
     setLoading(true);
     try {
       await authService.forgotPassword(email);
-      setSuccess('Nếu tài khoản với email này tồn tại, chúng tôi đã gửi liên kết đặt lại mật khẩu.');
+      setSuccess('Đã gửi email khôi phục mật khẩu. Vui lòng kiểm tra hộp thư của bạn (bao gồm cả thư rác).');
     } catch (err) {
       setError(err.response?.data?.message || 'Đã xảy ra lỗi. Vui lòng thử lại.');
     } finally {
