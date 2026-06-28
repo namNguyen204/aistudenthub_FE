@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import authService from '../services/auth.service';
+import profileService from '../services/profile.service';
 
 const AuthContext = createContext(null);
 
@@ -9,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const initUserFromToken = (token) => {
+  const initUserFromToken = async (token) => {
     try {
       const decoded = jwtDecode(token);
       setUser({
@@ -17,6 +18,16 @@ export const AuthProvider = ({ children }) => {
         role: decoded.role || decoded.authorities?.[0] || 'USER',
       });
       setIsAuthenticated(true);
+      
+      // Fetch full profile to get fullName, avatar, etc.
+      try {
+        const profile = await profileService.getProfile();
+        if (profile) {
+          setUser(prev => ({ ...prev, ...profile }));
+        }
+      } catch (profileErr) {
+        console.error('Failed to fetch user profile:', profileErr);
+      }
     } catch (e) {
       console.error(e);
       setIsAuthenticated(false);

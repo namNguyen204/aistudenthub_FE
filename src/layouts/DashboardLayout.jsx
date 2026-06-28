@@ -90,7 +90,7 @@ const DashboardLayout = () => {
             </button>
             <div style={{ width: '1px', height: '24px', backgroundColor: 'var(--neutral-200)', margin: '0 8px' }}></div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontWeight: 600, fontSize: '14px', color: 'var(--neutral-700)' }}>
-               {user?.email?.split('@')[0] || 'User'}
+               {user?.fullName || user?.email?.split('@')[0] || 'User'}
             </div>
           </div>
         </header>
