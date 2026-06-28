@@ -167,7 +167,7 @@ const DashboardHome = () => {
               <div style={{ padding: '3rem 2rem', textAlign: 'center', color: 'var(--neutral-500)' }}>
                 <FileOutput size={48} style={{ opacity: 0.2, margin: '0 auto 1rem' }} />
                 <p>Bạn chưa tải lên tài liệu nào.</p>
-                <Link to="/dashboard/documents/upload" style={{ color: 'var(--primary-600)', marginTop: '0.5rem', display: 'inline-block', textDecoration: 'none' }}>Tải lên ngay</Link>
+                <Link to="/dashboard/upload" style={{ color: 'var(--primary-600)', marginTop: '0.5rem', display: 'inline-block', textDecoration: 'none' }}>Tải lên ngay</Link>
               </div>
             )}
           </div>
@@ -181,7 +181,7 @@ const DashboardHome = () => {
           </div>
           <div className="dashboard-section-body">
             <div className="quick-actions-list">
-              <Link to="/dashboard/documents/upload" className="quick-action-btn">
+              <Link to="/dashboard/upload" className="quick-action-btn">
                 <div className="quick-action-icon">
                   <Upload size={20} />
                 </div>
