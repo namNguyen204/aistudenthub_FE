@@ -37,21 +37,21 @@ const FolderManager = () => {
   // Delete state
   const [folderToDelete, setFolderToDelete] = useState(null);
 
-  useEffect(() => {
-    fetchFolders();
-  }, []);
-
   const fetchFolders = async () => {
     setLoading(true);
     try {
       const data = await folderService.getFolders();
-      setFolders(data);
-    } catch (error) {
-      console.error('Failed to fetch folders', error);
+      setFolders(data || []);
+    } catch (err) {
+      console.error('Failed to load folders', err);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchFolders();
+  }, []);
 
   const handleOpenModal = (folder = null) => {
     setFormErrors({});
@@ -166,7 +166,7 @@ const FolderManager = () => {
 
               <div className="folder-footer">
                 <span>{folder.documentCount || 0} Tài liệu</span>
-                <span>{new Date(folder.createdAt || Date.now()).toLocaleDateString()}</span>
+                <span>{folder.createdAt ? new Date(folder.createdAt).toLocaleDateString() : ''}</span>
               </div>
             </div>
           ))}

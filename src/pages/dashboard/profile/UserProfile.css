@@ -1,0 +1,128 @@
+.profile-page-wrapper {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.profile-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.profile-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--neutral-900);
+  margin-bottom: 0.5rem;
+}
+
+.profile-header p {
+  color: var(--neutral-500);
+  font-size: 1rem;
+}
+
+.profile-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .profile-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.toast-notification {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background-color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+  animation: slideInDown 0.3s ease-out;
+  font-weight: 500;
+}
+
+.toast-success {
+  border-left: 4px solid var(--success-500);
+  color: var(--neutral-800);
+}
+.toast-success svg {
+  color: var(--success-500);
+}
+
+.toast-error {
+  border-left: 4px solid var(--error-500);
+  color: var(--neutral-800);
+}
+.toast-error svg {
+  color: var(--error-500);
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.profile-section {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--neutral-200);
+}
+
+.profile-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--neutral-800);
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--neutral-200);
+  padding-bottom: 0.75rem;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.avatar-preview {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.avatar-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--neutral-100);
+  border: 2px solid var(--primary-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-500);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}

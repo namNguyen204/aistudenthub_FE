@@ -1,5 +1,6 @@
 import React from 'react';
 import { HardHat } from 'lucide-react';
+import UserProfile from './profile/UserProfile';
 
 const PageWrapper = ({ title, description }) => (
   <div className="premium-page-wrapper">
@@ -23,7 +24,7 @@ const PageWrapper = ({ title, description }) => (
 );
 
 export const DashboardHome = () => <PageWrapper title="Trang chủ" description="Chào mừng trở lại AI Student Hub. Dưới đây là tổng quan về các hoạt động học tập gần đây và tài liệu đã tải lên của bạn." />;
-export const UserProfile = () => <PageWrapper title="Hồ sơ của tôi" description="Cập nhật thông tin cá nhân, quản lý cài đặt bảo mật và tùy chỉnh trải nghiệm của bạn." />;
+export { UserProfile };
 
 export const AdminDocumentList = () => <PageWrapper title="Quản lý Tài liệu" description="Toàn quyền quản trị để xem, chỉnh sửa, phê duyệt hoặc xóa an toàn tất cả các tài liệu trên toàn bộ hệ thống." />;
 export const AdminSettings = () => <PageWrapper title="Cài đặt Hệ thống" description="Quản lý cấu hình hệ thống toàn cầu, vai trò người dùng và tích hợp nền tảng." />;

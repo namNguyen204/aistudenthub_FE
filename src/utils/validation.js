@@ -60,6 +60,10 @@ export const ruleEmail = (message = 'Invalid email address') => {
   return (value) => (value && !isValidEmail(value) ? message : null);
 };
 
+export const ruleMinLength = (length, message) => {
+  return (value) => (value && value.length < length ? message : null);
+};
+
 export const rulePassword = (message = 'Password must be 8+ chars with at least 1 uppercase, 1 lowercase, and 1 number') => {
   return (value) => (value && !isValidPassword(value) ? message : null);
 };
