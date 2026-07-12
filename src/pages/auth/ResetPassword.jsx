@@ -22,8 +22,8 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
 
   const schema = {
-    password: [ruleRequired('New password is required'), rulePassword()],
-    confirmPassword: [ruleRequired('Please confirm your new password'), ruleMatch('password', 'Passwords do not match')],
+    password: [ruleRequired(), rulePassword()],
+    confirmPassword: [ruleRequired(), ruleMatch('password')],
   };
 
   useEffect(() => {

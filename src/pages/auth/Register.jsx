@@ -21,10 +21,10 @@ const Register = () => {
   const navigate = useNavigate();
 
   const schema = {
-    name: [ruleRequired('Full name is required')],
-    email: [ruleRequired('Email is required'), ruleEmail('Please enter a valid email')],
-    password: [ruleRequired('Password is required'), rulePassword()],
-    confirmPassword: [ruleRequired('Please confirm your password'), ruleMatch('password', 'Passwords do not match')],
+    name: [ruleRequired()],
+    email: [ruleRequired(), ruleEmail()],
+    password: [ruleRequired(), rulePassword()],
+    confirmPassword: [ruleRequired(), ruleMatch('password')],
   };
 
   const handleChange = (e) => {

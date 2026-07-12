@@ -27,8 +27,8 @@ const Login = () => {
   }, [location]);
 
   const schema = {
-    email: [ruleRequired('Email is required'), ruleEmail('Please enter a valid email')],
-    password: [ruleRequired('Password is required')],
+    email: [ruleRequired(), ruleEmail()],
+    password: [ruleRequired()],
   };
 
   const handleChange = (e) => {

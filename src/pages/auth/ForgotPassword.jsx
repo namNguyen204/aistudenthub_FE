@@ -15,7 +15,7 @@ const ForgotPassword = () => {
   const [formErrors, setFormErrors] = useState({});
 
   const schema = {
-    email: [ruleRequired('Email is required'), ruleEmail('Please enter a valid email')],
+    email: [ruleRequired(), ruleEmail()],
   };
 
   const handleBlur = () => {

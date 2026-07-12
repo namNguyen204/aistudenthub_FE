@@ -52,11 +52,11 @@ export const validateForm = (formData, schema) => {
 
 // --- Validation Rule Generators for schema ---
 
-export const ruleRequired = (message = 'This field is required') => {
+export const ruleRequired = (message = 'Trường này là bắt buộc') => {
   return (value) => (!isRequired(value) ? message : null);
 };
 
-export const ruleEmail = (message = 'Invalid email address') => {
+export const ruleEmail = (message = 'Địa chỉ email không hợp lệ') => {
   return (value) => (value && !isValidEmail(value) ? message : null);
 };
 
@@ -64,10 +64,10 @@ export const ruleMinLength = (length, message) => {
   return (value) => (value && value.length < length ? message : null);
 };
 
-export const rulePassword = (message = 'Password must be 8+ chars with at least 1 uppercase, 1 lowercase, and 1 number') => {
+export const rulePassword = (message = 'Mật khẩu phải từ 8 ký tự, gồm ít nhất 1 chữ hoa, 1 chữ thường và 1 số') => {
   return (value) => (value && !isValidPassword(value) ? message : null);
 };
 
-export const ruleMatch = (matchField, message = 'Fields do not match') => {
+export const ruleMatch = (matchField, message = 'Mật khẩu không khớp') => {
   return (value, formData) => (value !== formData[matchField] ? message : null);
 };

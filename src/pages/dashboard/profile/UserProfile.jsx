@@ -100,15 +100,9 @@ const UserProfile = () => {
     setPasswordErrorMessage('');
     
     const errors = validateForm(passwordData, {
-      currentPassword: [ruleRequired('Mật khẩu hiện tại không được để trống')],
-      newPassword: [
-        ruleRequired('Mật khẩu mới không được để trống'),
-        ruleMinLength(8, 'Mật khẩu mới phải từ 8 ký tự trở lên')
-      ],
-      confirmPassword: [
-        ruleRequired('Xác nhận mật khẩu không được để trống'),
-        ruleMatch('newPassword', 'Xác nhận mật khẩu không khớp')
-      ]
+      currentPassword: [ruleRequired()],
+      newPassword: [ruleRequired(), rulePassword()],
+      confirmPassword: [ruleRequired(), ruleMatch('newPassword')]
     });
     
     setPasswordErrors(errors);
