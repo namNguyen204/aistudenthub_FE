@@ -60,6 +60,12 @@ const UploadDocument = () => {
   };
 
   const handleFileSelect = (selectedFile) => {
+    if (selectedFile.size > 10 * 1024 * 1024) {
+      setFormErrors(prev => ({ ...prev, file: 'Kích thước tệp vượt quá giới hạn 10MB. Vui lòng chọn tệp nhỏ hơn.' }));
+      setFile(null);
+      return;
+    }
+
     setFile(selectedFile);
     if (!formData.title) {
       const nameWithoutExt = selectedFile.name.replace(/\.[^/.]+$/, "");
@@ -135,7 +141,7 @@ const UploadDocument = () => {
                 <UploadCloud size={32} />
               </div>
               <p className="dropzone-text">Nhấp hoặc kéo tệp vào khu vực này để tải lên</p>
-              <p className="dropzone-subtext">Hỗ trợ một tệp PDF, DOCX hoặc PPTX. Kích thước tối đa 50MB.</p>
+              <p className="dropzone-subtext">Hỗ trợ một tệp PDF, DOCX hoặc PPTX. Kích thước tối đa 10MB.</p>
               <input 
                 type="file" 
                 ref={fileInputRef} 
