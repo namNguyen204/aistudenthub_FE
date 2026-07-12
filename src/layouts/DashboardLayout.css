@@ -21,7 +21,42 @@
   transition: all var(--transition-base);
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.02);
   z-index: 20;
+  z-index: 20;
   position: relative;
+}
+
+.sidebar-collapsed .dashboard-sidebar {
+  width: 80px;
+}
+
+.sidebar-collapsed .sidebar-logo-text,
+.sidebar-collapsed .nav-item-text,
+.sidebar-collapsed .user-details {
+  display: none;
+}
+
+.sidebar-collapsed .sidebar-header {
+  padding: var(--spacing-6) var(--spacing-4);
+  justify-content: center;
+}
+
+.sidebar-collapsed .nav-item {
+  justify-content: center;
+  padding: var(--spacing-3);
+}
+
+.sidebar-collapsed .nav-item svg {
+  margin: 0;
+}
+
+.sidebar-collapsed .user-profile-btn {
+  justify-content: center;
+  padding: var(--spacing-3);
+}
+
+.sidebar-collapsed .logout-btn {
+  justify-content: center;
+  padding: var(--spacing-3);
 }
 
 .sidebar-header {

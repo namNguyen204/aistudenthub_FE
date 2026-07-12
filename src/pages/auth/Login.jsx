@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import { Mail, Lock } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { validateForm, ruleRequired, ruleEmail } from '../../utils/validation';
@@ -61,7 +62,16 @@ const Login = () => {
     }
 
     try {
-      await login(formData.email, formData.password);
+      const response = await login(formData.email, formData.password);
+      const token = response?.data?.token || localStorage.getItem('access_token');
+      if (token) {
+        const decoded = jwtDecode(token);
+        const role = decoded.role || decoded.authorities?.[0] || 'USER';
+        if (role === 'ADMIN' || role === 'ROLE_ADMIN') {
+          navigate('/admin');
+          return;
+        }
+      }
       navigate('/dashboard');
     } catch (err) {
       setApiError(err.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');

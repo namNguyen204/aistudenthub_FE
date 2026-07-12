@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
@@ -12,13 +12,16 @@ import {
   Shield,
   Bell,
   Menu,
-  Folder
+  Folder,
+  BarChart,
+  Users
 } from 'lucide-react';
 import Button from '../components/Button/Button';
 import './DashboardLayout.css';
 
 const DashboardLayout = () => {
   const { user, logout } = useAuth();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   
   const role = user?.role?.replace('ROLE_', '') || 'USER';
   const isAdmin = role === 'ADMIN';
@@ -33,18 +36,21 @@ const DashboardLayout = () => {
   ];
 
   const adminNavigation = [
+    { name: 'Dashboard', to: '/admin', icon: <BarChart size={20} /> },
+    { name: 'Quản lý Người dùng', to: '/admin/users', icon: <Users size={20} /> },
     { name: 'Quản lý Tài liệu', to: '/admin/documents', icon: <FileText size={20} /> },
+    { name: 'Quản lý Chat', to: '/admin/chats', icon: <MessageSquare size={20} /> },
     { name: 'Cài đặt Hệ thống', to: '/admin/settings', icon: <Shield size={20} /> },
   ];
 
   const navigation = isAdmin ? adminNavigation : userNavigation;
 
   return (
-    <div className="dashboard-layout">
+    <div className={`dashboard-layout ${isSidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'}`}>
       <aside className="dashboard-sidebar">
         <div className="sidebar-header">
-          <BookOpen size={28} />
-          <span>AI Student Hub</span>
+          <BookOpen size={28} className="sidebar-logo-icon" />
+          <span className="sidebar-logo-text">AI Student Hub</span>
         </div>
         
         <nav className="sidebar-nav">
@@ -52,11 +58,11 @@ const DashboardLayout = () => {
             <NavLink
               key={item.name}
               to={item.to}
-              end={item.to === '/dashboard'}
+              end={item.to === '/dashboard' || item.to === '/admin'}
               className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
             >
               {item.icon}
-              {item.name}
+              <span className="nav-item-text">{item.name}</span>
             </NavLink>
           ))}
         </nav>
@@ -71,18 +77,27 @@ const DashboardLayout = () => {
               <span className="user-role">{role}</span>
             </div>
           </div>
-          <button className="logout-btn" onClick={logout}>
+          <button className="logout-btn" onClick={logout} title="Đăng xuất">
             <LogOut size={18} />
-            <span>Đăng xuất</span>
+            <span className="nav-item-text">Đăng xuất</span>
           </button>
         </div>
       </aside>
 
       <main className="dashboard-main">
         <header className="dashboard-header">
-          <div className="header-search">
-            <Search size={18} color="var(--neutral-400)" />
-            <input type="text" placeholder="Tìm kiếm nhanh trong hub..." />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button 
+              className="header-icon-btn" 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              title="Toggle Menu"
+            >
+              <Menu size={20} />
+            </button>
+            <div className="header-search">
+              <Search size={18} color="var(--neutral-400)" />
+              <input type="text" placeholder="Tìm kiếm nhanh trong hub..." />
+            </div>
           </div>
           <div className="header-actions">
             <button className="header-icon-btn">

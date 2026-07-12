@@ -6,9 +6,14 @@ import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import DashboardLayout from './layouts/DashboardLayout';
-import { 
+import {
   DashboardHome, 
-  UserProfile, AdminDocumentList, AdminSettings 
+  UserProfile,
+  AdminDashboardHome,
+  AdminUserList,
+  AdminDocumentList,
+  AdminChatModeration,
+  AdminSystemConfig
 } from './pages/dashboard/DashboardPages';
 import FolderManager from './pages/dashboard/documents/FolderManager';
 import UploadDocument from './pages/dashboard/documents/UploadDocument';
@@ -61,9 +66,11 @@ function AppRoutes() {
         path="/admin" 
         element={<ProtectedRoute requireAdmin={true}><DashboardLayout /></ProtectedRoute>}
       >
-        <Route index element={<Navigate to="documents" replace />} />
+        <Route index element={<AdminDashboardHome />} />
+        <Route path="users" element={<AdminUserList />} />
         <Route path="documents" element={<AdminDocumentList />} />
-        <Route path="settings" element={<AdminSettings />} />
+        <Route path="chats" element={<AdminChatModeration />} />
+        <Route path="settings" element={<AdminSystemConfig />} />
       </Route>
     </Routes>
   );
