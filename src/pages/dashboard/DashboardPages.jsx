@@ -24,7 +24,18 @@ const PageWrapper = ({ title, description }) => (
   </div>
 );
 
-export { DashboardHome, UserProfile };
+import AdminDashboardHome from '../admin/AdminDashboardHome';
+import AdminUserList from '../admin/AdminUserList';
+import AdminDocumentList from '../admin/AdminDocumentList';
+import AdminChatModeration from '../admin/AdminChatModeration';
+import AdminSystemConfig from '../admin/AdminSystemConfig';
 
-export const AdminDocumentList = () => <PageWrapper title="Quản lý Tài liệu" description="Toàn quyền quản trị để xem, chỉnh sửa, phê duyệt hoặc xóa an toàn tất cả các tài liệu trên toàn bộ hệ thống." />;
-export const AdminSettings = () => <PageWrapper title="Cài đặt Hệ thống" description="Quản lý cấu hình hệ thống toàn cầu, vai trò người dùng và tích hợp nền tảng." />;
+export { 
+  DashboardHome, 
+  UserProfile,
+  AdminDashboardHome,
+  AdminUserList,
+  AdminDocumentList,
+  AdminChatModeration,
+  AdminSystemConfig
+};

@@ -11,7 +11,7 @@ const Welcome = () => {
   const handleGetStarted = () => {
     if (isAuthenticated) {
       const role = user?.role?.replace('ROLE_', '') || 'USER';
-      navigate(role === 'ADMIN' ? '/admin/documents' : '/dashboard');
+      navigate(role === 'ADMIN' ? '/admin' : '/dashboard');
     } else {
       navigate('/login');
     }
