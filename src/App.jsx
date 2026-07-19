@@ -13,7 +13,8 @@ import {
   AdminUserList,
   AdminDocumentList,
   AdminChatModeration,
-  AdminSystemConfig
+  AdminSystemConfig,
+  AdminSystemLogs
 } from './pages/dashboard/DashboardPages';
 import FolderManager from './pages/dashboard/documents/FolderManager';
 import UploadDocument from './pages/dashboard/documents/UploadDocument';
@@ -75,6 +76,7 @@ function AppRoutes() {
         <Route path="documents" element={<AdminDocumentList />} />
         <Route path="chats" element={<AdminChatModeration />} />
         <Route path="settings" element={<AdminSystemConfig />} />
+        <Route path="logs" element={<AdminSystemLogs />} />
       </Route>
     </Routes>
   );

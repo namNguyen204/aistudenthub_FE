@@ -29,6 +29,7 @@ import AdminUserList from '../admin/AdminUserList';
 import AdminDocumentList from '../admin/AdminDocumentList';
 import AdminChatModeration from '../admin/AdminChatModeration';
 import AdminSystemConfig from '../admin/AdminSystemConfig';
+import AdminSystemLogs from '../admin/AdminSystemLogs';
 
 export { 
   DashboardHome, 
@@ -37,5 +38,6 @@ export {
   AdminUserList,
   AdminDocumentList,
   AdminChatModeration,
-  AdminSystemConfig
+  AdminSystemConfig,
+  AdminSystemLogs
 };

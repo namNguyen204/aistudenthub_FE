@@ -14,7 +14,8 @@ import {
   Menu,
   Folder,
   BarChart,
-  Users
+  Users,
+  Terminal
 } from 'lucide-react';
 import Button from '../components/Button/Button';
 import './DashboardLayout.css';
@@ -41,6 +42,7 @@ const DashboardLayout = () => {
     { name: 'Quản lý Tài liệu', to: '/admin/documents', icon: <FileText size={20} /> },
     { name: 'Quản lý Chat', to: '/admin/chats', icon: <MessageSquare size={20} /> },
     { name: 'Cài đặt Hệ thống', to: '/admin/settings', icon: <Shield size={20} /> },
+    { name: 'Nhật ký Hệ thống', to: '/admin/logs', icon: <Terminal size={20} /> },
   ];
 
   const navigation = isAdmin ? adminNavigation : userNavigation;
@@ -100,10 +102,6 @@ const DashboardLayout = () => {
             </div>
           </div>
           <div className="header-actions">
-            <button className="header-icon-btn">
-              <Bell size={20} />
-            </button>
-            <div style={{ width: '1px', height: '24px', backgroundColor: 'var(--neutral-200)', margin: '0 8px' }}></div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontWeight: 600, fontSize: '14px', color: 'var(--neutral-700)' }}>
                {user?.fullName || user?.email?.split('@')[0] || 'User'}
             </div>

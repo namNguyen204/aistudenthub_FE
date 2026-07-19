@@ -47,14 +47,36 @@ const adminService = {
 
   // ---- System Config ----
   getAllConfigs: async () => {
-    const response = await api.get('/admin/system-configs');
+    const response = await api.get('/admin/system-config');
     return response.data?.data;
   },
 
-  updateConfigs: async (configs) => {
-    // configs is a key-value object
-    const response = await api.put('/admin/system-configs', { configs });
+  updateConfigs: async (configsObj) => {
+    const configsArray = Object.keys(configsObj).map(key => ({
+      configKey: key,
+      configValue: configsObj[key] === true ? 'true' : (configsObj[key] === false ? 'false' : String(configsObj[key]))
+    }));
+    const response = await api.put('/admin/system-config', { configs: configsArray });
     return response.data?.data;
+  },
+
+  // ---- System Logs ----
+  getSystemLogs: async (params) => {
+    // Clean undefined/empty values
+    const cleanParams = {};
+    for (const key in params) {
+      if (params[key] !== undefined && params[key] !== '') {
+        cleanParams[key] = params[key];
+      }
+    }
+    const query = new URLSearchParams(cleanParams);
+    const response = await api.get(`/admin/logs?${query.toString()}`);
+    return response.data?.data;
+  },
+
+  clearSystemLogs: async (before) => {
+    const response = await api.delete(`/admin/logs/clear?before=${before}`);
+    return response.data?.message;
   },
 
   // ---- Documents (Fallback to standard APIs if Admin APIs are missing) ----

@@ -19,7 +19,13 @@ const AdminSystemConfig = () => {
       const configObj = {};
       if (Array.isArray(data)) {
         data.forEach(item => {
-          configObj[item.configKey] = item.configValue === 'true' || item.configValue === '1' || item.configValue === true;
+          if (item.configValue === 'true' || item.configValue === '1' || item.configValue === true) {
+            configObj[item.configKey] = true;
+          } else if (item.configValue === 'false' || item.configValue === '0' || item.configValue === false) {
+            configObj[item.configKey] = false;
+          } else {
+            configObj[item.configKey] = item.configValue; // Preserve original string/number
+          }
         });
       }
       // Provide some defaults if API is empty
