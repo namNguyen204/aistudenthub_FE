@@ -3,8 +3,10 @@ import { FileText, Search, Trash2, Eye, Download, AlertCircle } from 'lucide-rea
 import adminService from '../../services/admin.service';
 import Button from '../../components/Button/Button';
 import ConfirmDeleteModal from '../../components/Modal/ConfirmDeleteModal';
+import Modal from '../../components/Modal/Modal';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { Activity } from 'lucide-react';
 
 const AdminDocumentList = () => {
   const [documents, setDocuments] = useState([]);
@@ -14,6 +16,9 @@ const AdminDocumentList = () => {
   const [page, setPage] = useState(0);
   const [deleteDocId, setDeleteDocId] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [viewStatusDoc, setViewStatusDoc] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState(null);
+  const [loadingStatus, setLoadingStatus] = useState(false);
 
   const fetchDocuments = async () => {
     setLoading(true);
@@ -49,6 +54,19 @@ const AdminDocumentList = () => {
       alert('Lỗi xóa tài liệu: ' + (err.response?.data?.message || err.message));
     } finally {
       setIsProcessing(false);
+    }
+  };
+
+  const handleViewStatus = async (doc) => {
+    setViewStatusDoc(doc);
+    setLoadingStatus(true);
+    try {
+      const statusData = await adminService.getUploadStatus(doc.id);
+      setUploadStatus(statusData);
+    } catch (err) {
+      console.error('Lỗi khi tải trạng thái upload:', err);
+    } finally {
+      setLoadingStatus(false);
     }
   };
 
@@ -131,6 +149,13 @@ const AdminDocumentList = () => {
                       <td style={{ padding: '1rem 0.5rem', textAlign: 'right' }}>
                         <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
                           <button 
+                            title="Xem trạng thái xử lý"
+                            onClick={() => handleViewStatus(doc)}
+                            style={{ padding: '0.5rem', borderRadius: '6px', border: 'none', cursor: 'pointer', backgroundColor: 'var(--primary-50)', color: 'var(--primary-600)' }}
+                          >
+                            <Activity size={16} />
+                          </button>
+                          <button 
                             title="Xóa tài liệu"
                             onClick={() => setDeleteDocId(doc.id)}
                             style={{ padding: '0.5rem', borderRadius: '6px', border: 'none', cursor: 'pointer', backgroundColor: 'var(--error-50)', color: 'var(--error-600)' }}
@@ -156,6 +181,46 @@ const AdminDocumentList = () => {
         title="Xóa Tài liệu Vi phạm"
         message="Cảnh báo: Bạn có chắc chắn muốn xóa vĩnh viễn tài liệu này khỏi hệ thống? Hành động này không thể hoàn tác."
       />
+
+      <Modal 
+        isOpen={!!viewStatusDoc}
+        onClose={() => { setViewStatusDoc(null); setUploadStatus(null); }}
+        title="Trạng thái Upload Tài liệu"
+        footer={
+          <Button variant="outline" onClick={() => { setViewStatusDoc(null); setUploadStatus(null); }}>Đóng</Button>
+        }
+      >
+        {loadingStatus ? (
+          <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--neutral-500)' }}>Đang tải trạng thái...</div>
+        ) : uploadStatus ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div>
+              <p style={{ margin: '0 0 0.25rem 0', fontSize: '12px', color: 'var(--neutral-500)', fontWeight: 500 }}>TÊN TÀI LIỆU</p>
+              <p style={{ margin: 0, color: 'var(--neutral-800)', fontWeight: 500 }}>{viewStatusDoc?.title}</p>
+            </div>
+            <div>
+              <p style={{ margin: '0 0 0.25rem 0', fontSize: '12px', color: 'var(--neutral-500)', fontWeight: 500 }}>TRẠNG THÁI HIỆN TẠI</p>
+              <p style={{ margin: 0, fontWeight: 500, color: uploadStatus.processingStatus === 'COMPLETED' ? 'var(--success-600)' : uploadStatus.processingStatus === 'FAILED' ? 'var(--error-600)' : 'var(--warning-600)' }}>
+                {uploadStatus.processingStatus}
+              </p>
+            </div>
+            {uploadStatus.errorMessage && (
+              <div>
+                <p style={{ margin: '0 0 0.25rem 0', fontSize: '12px', color: 'var(--neutral-500)', fontWeight: 500 }}>LỖI (NẾU CÓ)</p>
+                <p style={{ margin: 0, color: 'var(--error-600)', fontWeight: 500, fontSize: '13px', backgroundColor: 'var(--error-50)', padding: '0.5rem', borderRadius: '4px' }}>
+                  {uploadStatus.errorMessage}
+                </p>
+              </div>
+            )}
+            <div>
+              <p style={{ margin: '0 0 0.25rem 0', fontSize: '12px', color: 'var(--neutral-500)', fontWeight: 500 }}>SỐ TRANG</p>
+              <p style={{ margin: 0, color: 'var(--neutral-800)', fontWeight: 500 }}>{uploadStatus.totalPages || 0} trang</p>
+            </div>
+          </div>
+        ) : (
+          <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--neutral-500)' }}>Không có thông tin trạng thái.</div>
+        )}
+      </Modal>
     </div>
   );
 };

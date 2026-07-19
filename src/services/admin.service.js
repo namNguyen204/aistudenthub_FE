@@ -63,11 +63,10 @@ const adminService = {
     try {
       const params = new URLSearchParams({ page, size });
       if (keyword) params.append('keyword', keyword);
-      // Attempting to use a standard search API.
       const response = await api.get(`/documents/public?${params.toString()}`);
       return response.data?.data;
     } catch (e) {
-      console.warn('Fallback to standard document API failed', e);
+      console.warn('Lỗi khi lấy danh sách tài liệu', e);
       return { content: [], totalElements: 0, totalPages: 0 };
     }
   },
@@ -78,21 +77,33 @@ const adminService = {
     return response.data?.message;
   },
 
+  getUploadStatus: async (id) => {
+    const response = await api.get(`/documents/${id}/upload-status`);
+    return response.data?.data;
+  },
+
   // ---- Chat (Fallback to standard APIs if Admin APIs are missing) ----
   // If there's no Admin API to view all chats, we might get 403 or empty data.
   // We will add it as placeholder.
-  getAllChatSessions: async () => {
+  getAllChatSessions: async (keyword = '', page = 1, size = 20) => {
     try {
-      const response = await api.get('/admin/chat/sessions');
+      const params = new URLSearchParams({ page, size });
+      if (keyword) params.append('keyword', keyword);
+      const response = await api.get(`/admin/chats?${params.toString()}`);
       return response.data?.data;
     } catch (err) {
-      console.warn('Admin chat session API not found, falling back to empty list.');
-      return [];
+      console.warn('Lỗi khi tải chat sessions', err);
+      return { content: [], totalElements: 0, totalPages: 0 };
     }
   },
 
-  deleteChatSession: async (id) => {
-    const response = await api.delete(`/chat/sessions/${id}`);
+  getSessionMessages: async (sessionId) => {
+    const response = await api.get(`/admin/chats/${sessionId}/messages`);
+    return response.data?.data;
+  },
+
+  deleteChatSession: async (id, reason = 'Vi phạm chính sách nội dung') => {
+    const response = await api.delete(`/admin/chats/${id}`, { data: { reason } });
     return response.data?.message;
   }
 };
