@@ -31,6 +31,12 @@ import AdminChatModeration from '../admin/AdminChatModeration';
 import AdminSystemConfig from '../admin/AdminSystemConfig';
 import AdminSystemLogs from '../admin/AdminSystemLogs';
 
+// Payment
+import PaymentPackage from './payment/PaymentPackage';
+import PaymentSuccess from './payment/PaymentSuccess';
+import PaymentCancel from './payment/PaymentCancel';
+import PaymentHistory from './payment/PaymentHistory';
+
 export { 
   DashboardHome, 
   UserProfile,
@@ -39,5 +45,9 @@ export {
   AdminDocumentList,
   AdminChatModeration,
   AdminSystemConfig,
-  AdminSystemLogs
+  AdminSystemLogs,
+  PaymentPackage,
+  PaymentSuccess,
+  PaymentCancel,
+  PaymentHistory
 };

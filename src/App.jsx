@@ -14,7 +14,11 @@ import {
   AdminDocumentList,
   AdminChatModeration,
   AdminSystemConfig,
-  AdminSystemLogs
+  AdminSystemLogs,
+  PaymentPackage,
+  PaymentSuccess,
+  PaymentCancel,
+  PaymentHistory
 } from './pages/dashboard/DashboardPages';
 import FolderManager from './pages/dashboard/documents/FolderManager';
 import UploadDocument from './pages/dashboard/documents/UploadDocument';
@@ -65,6 +69,11 @@ function AppRoutes() {
         <Route path="upload" element={<UploadDocument />} />
         <Route path="documents/:id" element={<DocumentDetail />} />
         <Route path="profile" element={<UserProfile />} />
+        
+        <Route path="payment" element={<PaymentPackage />} />
+        <Route path="payment/success" element={<PaymentSuccess />} />
+        <Route path="payment/cancel" element={<PaymentCancel />} />
+        <Route path="payment/history" element={<PaymentHistory />} />
       </Route>
 
       <Route 

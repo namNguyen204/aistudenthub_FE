@@ -15,7 +15,8 @@ import {
   Folder,
   BarChart,
   Users,
-  Terminal
+  Terminal,
+  CreditCard
 } from 'lucide-react';
 import Button from '../components/Button/Button';
 import './DashboardLayout.css';
@@ -33,6 +34,7 @@ const DashboardLayout = () => {
     { name: 'Trò chuyện AI', to: '/dashboard/chat', icon: <MessageSquare size={20} /> },
     { name: 'Thư mục của tôi', to: '/dashboard/folders', icon: <Folder size={20} /> },
     { name: 'Tải lên Tài liệu', to: '/dashboard/upload', icon: <Upload size={20} /> },
+    { name: 'Nạp tiền / Gói cước', to: '/dashboard/payment', icon: <CreditCard size={20} /> },
     { name: 'Hồ sơ của tôi', to: '/dashboard/profile', icon: <Settings size={20} /> },
   ];
 

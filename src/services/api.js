@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/v1'; // Đã đổi sang localhost để test API mới
+const API_BASE_URL = 'https://aistudenthub.onrender.com/api/v1';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
