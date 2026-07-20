@@ -79,13 +79,12 @@ const adminService = {
     return response.data?.message;
   },
 
-  // ---- Documents (Fallback to standard APIs if Admin APIs are missing) ----
-  // We'll use the public search API for getting all docs if no specific admin API exists.
+  // ---- Documents ----
   getAllDocuments: async (keyword = '', page = 0, size = 20) => {
     try {
       const params = new URLSearchParams({ page, size });
       if (keyword) params.append('keyword', keyword);
-      const response = await api.get(`/documents/public?${params.toString()}`);
+      const response = await api.get(`/admin/documents?${params.toString()}`);
       return response.data?.data;
     } catch (e) {
       console.warn('Lỗi khi lấy danh sách tài liệu', e);
@@ -94,13 +93,12 @@ const adminService = {
   },
 
   deleteDocument: async (id) => {
-    // Assuming the service allows admin to bypass ownership
-    const response = await api.delete(`/documents/${id}`);
+    const response = await api.delete(`/admin/documents/${id}`);
     return response.data?.message;
   },
 
   getUploadStatus: async (id) => {
-    const response = await api.get(`/documents/${id}/upload-status`);
+    const response = await api.get(`/admin/documents/${id}/upload-status`);
     return response.data?.data;
   },
 
