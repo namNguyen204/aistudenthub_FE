@@ -1,0 +1,85 @@
+.onlyoffice-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f3f4f6;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+.onlyoffice-header {
+  height: 50px;
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.document-title {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+.onlyoffice-close-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #fee2e2;
+  color: #ef4444;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.onlyoffice-close-btn:hover {
+  background-color: #fecaca;
+}
+
+.onlyoffice-body {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.onlyoffice-loading,
+.onlyoffice-error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.onlyoffice-loading p {
+  color: #4b5563;
+  margin: 0;
+  font-weight: 500;
+}
+
+.onlyoffice-error h3 {
+  color: #ef4444;
+  margin-bottom: 0.5rem;
+}
+
+.onlyoffice-error p {
+  color: #4b5563;
+}

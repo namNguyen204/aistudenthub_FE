@@ -61,6 +61,11 @@ const documentService = {
     return response.data?.data;
   },
 
+  getOnlyOfficeConfig: async (id) => {
+    const response = await api.get(`/documents/${id}/onlyoffice-config`);
+    return response.data?.data;
+  },
+
   getFilterOptions: async () => {
     const response = await api.get('/documents/filter-options');
     return response.data?.data;

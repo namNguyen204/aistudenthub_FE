@@ -8,8 +8,8 @@ const PACKAGES = [
   {
     id: 'basic',
     name: 'Gói Cơ bản',
-    price: 20000,
-    priceStr: '20.000đ',
+    price: 0,
+    priceStr: 'Miễn phí',
     icon: <CreditCard size={24} className="package-icon" />,
     color: 'var(--primary-500)',
     features: ['100 câu hỏi AI / ngày', 'Lưu trữ 50 tài liệu', 'Hỗ trợ cơ bản'],
@@ -18,8 +18,8 @@ const PACKAGES = [
   {
     id: 'pro',
     name: 'Gói Nâng cao',
-    price: 50000,
-    priceStr: '50.000đ',
+    price: 39000,
+    priceStr: '39.000đ',
     icon: <Zap size={24} className="package-icon text-warning" />,
     color: '#eab308',
     features: ['Không giới hạn AI Chat', 'Lưu trữ 500 tài liệu', 'Phân tích tài liệu PDF', 'Hỗ trợ ưu tiên'],
@@ -28,8 +28,8 @@ const PACKAGES = [
   {
     id: 'premium',
     name: 'Gói Chuyên gia',
-    price: 100000,
-    priceStr: '100.000đ',
+    price: 79000,
+    priceStr: '79.000đ',
     icon: <Crown size={24} className="package-icon text-danger" />,
     color: 'var(--danger-500)',
     features: ['Tất cả tính năng Pro', 'Lưu trữ không giới hạn', 'Ưu tiên kết quả tìm kiếm', 'Lưu lịch sử vĩnh viễn'],
@@ -124,7 +124,7 @@ const PaymentPackage = () => {
         ))}
       </div>
 
-      <div className="payment-action-container glass-card mt-4 text-center">
+      <div className="payment-action-container glass-card text-center" style={{ marginTop: '3rem' }}>
         <h3 className="mb-2">Bạn đang chọn: <strong>{selectedPkg.name}</strong></h3>
         <p className="text-neutral-500 mb-4">Tổng thanh toán: <strong style={{ color: 'var(--primary-600)', fontSize: '1.25rem' }}>{selectedPkg.priceStr}</strong></p>
         
@@ -132,14 +132,16 @@ const PaymentPackage = () => {
           variant="primary" 
           size="lg" 
           onClick={handlePayment} 
-          disabled={isProcessing}
+          disabled={isProcessing || selectedPkg.price === 0}
           style={{ minWidth: '250px', fontSize: '1.1rem' }}
         >
-          {isProcessing ? 'Đang chuyển hướng...' : 'Thanh toán qua VietQR'}
+          {selectedPkg.price === 0 ? 'Gói mặc định của bạn' : (isProcessing ? 'Đang chuyển hướng...' : 'Thanh toán qua VietQR')}
         </Button>
-        <div className="payment-methods mt-3 text-neutral-400" style={{ fontSize: '0.85rem' }}>
-          Hỗ trợ quét mã QR qua mọi ứng dụng ngân hàng và ví điện tử tại Việt Nam.
-        </div>
+        {selectedPkg.price > 0 && (
+          <div className="payment-methods mt-3 text-neutral-400" style={{ fontSize: '0.85rem' }}>
+            Hỗ trợ quét mã QR qua mọi ứng dụng ngân hàng và ví điện tử tại Việt Nam.
+          </div>
+        )}
       </div>
     </div>
   );

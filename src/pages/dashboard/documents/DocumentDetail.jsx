@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Download, Edit, Trash2, ArrowLeft, FileText, Calendar, HardDrive, Folder, MessageSquare } from 'lucide-react';
+import { Download, Edit, Trash2, ArrowLeft, FileText, Calendar, HardDrive, Folder, MessageSquare, Edit3 } from 'lucide-react';
 import documentService from '../../../services/document.service';
 import folderService from '../../../services/folder.service';
 import Button from '../../../components/Button/Button';
 import Modal from '../../../components/Modal/Modal';
 import ConfirmDeleteModal from '../../../components/Modal/ConfirmDeleteModal';
 import Input from '../../../components/Input/Input';
+import OnlyOfficeEditor from '../../../components/OnlyOfficeEditor/OnlyOfficeEditor';
 import { validateForm, ruleRequired } from '../../../utils/validation';
 import './DocumentDetail.css';
 
@@ -32,6 +33,12 @@ const DocumentDetail = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  
+  // OnlyOffice state
+  const [isOnlyOfficeOpen, setIsOnlyOfficeOpen] = useState(false);
+  const [onlyOfficeConfig, setOnlyOfficeConfig] = useState(null);
+  const [isConfigLoading, setIsConfigLoading] = useState(false);
+  
   const [folders, setFolders] = useState([]);
   const [formData, setFormData] = useState({
     title: '',
@@ -148,6 +155,26 @@ const DocumentDetail = () => {
     }
   };
 
+  const handleDirectEdit = async () => {
+    setIsConfigLoading(true);
+    try {
+      const config = await documentService.getOnlyOfficeConfig(id);
+      if (config) {
+        setOnlyOfficeConfig(config);
+        setIsOnlyOfficeOpen(true);
+      } else {
+        alert('Không lấy được cấu hình soạn thảo.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || 'Lỗi khi kết nối đến trình soạn thảo trực tuyến');
+    } finally {
+      setIsConfigLoading(false);
+    }
+  };
+
+  const isEditable = doc?.fileName && /\.(doc|docx|xls|xlsx|ppt|pptx|csv)$/i.test(doc.fileName);
+
   if (loading) return <div style={{ padding: '4rem', textAlign: 'center' }}>Đang tải tài liệu...</div>;
   if (error || !doc) return <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--error-600)' }}>{error}</div>;
 
@@ -241,6 +268,13 @@ const DocumentDetail = () => {
           <Button variant="primary" style={{ width: '100%', backgroundColor: 'var(--primary-600)', color: 'white', marginBottom: '8px' }} onClick={() => navigate('/dashboard/chat', { state: { documentId: doc.id } })}>
             <MessageSquare size={16} style={{ marginRight: '6px' }} /> Trò chuyện với Tài liệu này
           </Button>
+          
+          {isEditable && (
+            <Button variant="outline" style={{ width: '100%', marginBottom: '8px' }} onClick={handleDirectEdit} isLoading={isConfigLoading}>
+              <Edit3 size={16} style={{ marginRight: '6px' }} /> Chỉnh sửa Trực tiếp
+            </Button>
+          )}
+
           <Button variant="outline" style={{ width: '100%' }} onClick={() => setIsEditModalOpen(true)}>
             <Edit size={16} style={{ marginRight: '6px' }} /> Chỉnh sửa Thông tin
           </Button>
@@ -315,6 +349,16 @@ const DocumentDetail = () => {
           </div>
         </div>
       </Modal>
+
+      {isOnlyOfficeOpen && onlyOfficeConfig && (
+        <OnlyOfficeEditor 
+          configData={onlyOfficeConfig} 
+          onClose={() => {
+            setIsOnlyOfficeOpen(false);
+            fetchFileStream();
+          }} 
+        />
+      )}
 
       {/* Delete Confirmation Modal */}
       <ConfirmDeleteModal 
